@@ -1,0 +1,116 @@
+.dataContianer{
+    padding: 20px;
+}
+.dataForms{
+    margin-top: 10px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+}
+.data{
+    min-width: 500px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: var(--dark10);
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(2, 1fr);
+}
+.data span{
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    align-items: center;
+    border-radius: 5px;
+    background-color: var(--blue10);
+    grid-column: 1 / 3;
+}
+.data h2{
+    text-transform: capitalize;
+}
+.data span img{
+    height: 30px;
+    rotate: 45deg;
+}
+.data span img:hover{
+    cursor: pointer;
+    scale: 1.05;
+}
+.dataDetails{
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--dark20);
+    display: grid;
+}
+.data label{
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    align-items: center;
+}
+.data label p{
+    font-size: 20px;
+    text-transform: capitalize;
+    margin-bottom: 2px;
+    color: var(--light00);
+    font-weight: 700;
+}
+.data label img{
+    height: 20px;
+    width: 20px;
+    padding: 3px;
+    margin: 3px;
+    border-radius: 50%;
+}
+.data label img:hover{
+    cursor: pointer;
+}
+.data :is(input, select){
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 5px;
+    text-transform: capitalize;
+    color: var(--dark00);
+}
+.data :is(input, select):focus{
+    outline: none;
+}
+.data option{
+    text-transform: capitalize;
+    color: var(--dark00);
+}
+.data button{
+    grid-column: 1 / 3;
+    width: 100%;
+    color: var(--light00);
+    background-color: var(--blue10);
+    border: none;
+    font-size: 20px;
+    text-transform: capitalize;
+    padding: 10px;
+    border-radius:  5px;
+}
+.data button:hover{
+    cursor: pointer;
+    background-color: var(--blue00);
+}
+.floatingForm{
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    width: 100dvw;
+    height: 100dvh;
+    height: 100vh;
+    margin: auto;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.603);
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+.floatingForm .data{
+    height: max-content;
+    width: max-content;
+}

@@ -1,0 +1,23 @@
+.home{
+    padding: 20px;
+}
+.home .content{
+    padding: 10px 0;
+    display: grid;
+    gap: 10px;
+}
+.widgets{
+    display: flex;
+    gap: 10px;
+}
+.widgets div{
+    width: 300px;
+    height: 100px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 4px 0 var(--dark10);
+}
+.widgets .widgetTitle{
+    font-size: 20px;
+    text-transform: capitalize;
+}

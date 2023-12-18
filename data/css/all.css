@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: white;
+    font-family: quicksand;
+}
+
+html{
+    min-height: 100%;
+    height: max-content;
+    width: 100%;
+}
+
+body{
+    background-color: white;
+    min-height: 100%;
+    height: max-content;
+    width: 100%;
+}
+
+:root{
+    --light00: white;
+    --light10: darkgrey;
+    --dark00: black; 
+    --dark10: #101010;
+    --dark20: #202020;
+    --dark30: #303030;
+    --blue00: lightblue;
+    --blue10: rgb(32, 134, 175);;
+}
+
+main{
+    width: 100%;
+    min-height: 100%;
+    height: max-content;
+    background-color: var(--dark30);
+    display: grid;
+    grid-template-columns: 220px 1fr;
+}
+h1{
+    font-size: 30px;
+}

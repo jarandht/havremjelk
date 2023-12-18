@@ -1,0 +1,38 @@
+nav{
+    height: calc(100vh - 20px);
+    height: calc(100dvh - 20px);
+    background-color: var(--dark10);
+    display: grid;
+    padding: 10px;
+    grid-template-rows: repeat(4, max-content) 1fr;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+}
+nav a{
+    height: max-content;
+}
+nav div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--dark20);
+}
+nav div:hover{
+    background-color: var(--dark30);
+    cursor: pointer;
+}
+nav p{
+    font-size: 25px;
+    font-weight: 700;
+    color: white;
+}
+nav img{
+    height: 20px;
+    width: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--blue10);
+}
