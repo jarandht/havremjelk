@@ -6,13 +6,16 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $sourceName = $_POST["source"];
+        $sourceName = $_POST["years"];
 
-        // Insert the source into the 'incomesource' table
-        $insertSourceSQL = "INSERT INTO incomesource (incomesource_name) VALUES (:sourceName)";
-        $stmt = $conn->prepare($insertSourceSQL);
-        $stmt->bindParam(':sourceName', $sourceName);
-        $stmt->execute();
+        // Check if $sourceName is not empty before proceeding with the insertion
+        if (!empty($sourceName)) {
+            // Insert the source into the 'source' table
+            $insertSourceSQL = "INSERT INTO years (id) VALUES (:years)";
+            $stmt = $conn->prepare($insertSourceSQL);
+            $stmt->bindParam(':years', $sourceName);
+            $stmt->execute();
+        }
 
         // Redirect back to the referring page
         $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';

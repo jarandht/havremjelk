@@ -5,8 +5,8 @@ $conn = new mysqli($servername, $username, $password, $database);
 
 $sqlincomecategory = "SELECT id, incomecategory_name FROM incomecategory";
 $incomecategory = $conn->query($sqlincomecategory);
-$sqlsource = "SELECT id, source_name FROM source";
-$source = $conn->query($sqlsource);
+$sqlincomesource = "SELECT id, incomesource_name FROM incomesource";
+$incomesource = $conn->query($sqlincomesource);
 $sqlday = "SELECT id, day_name FROM days";
 $day = $conn->query($sqlday);
 $sqldate = "SELECT id, id FROM dates";
@@ -16,74 +16,26 @@ $month = $conn->query($sqlmonth);
 $sqlyear = "SELECT id, id FROM years";
 $year = $conn->query($sqlyear);
 
-if (isset($_POST["submit"])) {
-    // Check if the year_id is not empty before inserting into the database
-    $year_id = !empty($_POST["txtYear_id"]) ? $conn->real_escape_string($_POST["txtYear_id"]) : null;
-
-    // Repeat this check for other dropdowns
-
-    $sql = sprintf("INSERT INTO income(chost, year_id, month_id, date_id, day_id, incomecategory_id, source_id) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-        $conn->real_escape_string($_POST["txtChost"]),
-        $year_id,
-        // Repeat this for other fields
-    );
-    $conn->query($sql);
-}
-
-$conn = null;
+$conn->close();
 
 ?>
-
-<nav>
-    <a href="/">
-        <div>
-            <img src="/img/home.png" alt="">
-            <p>Home</p>
-        </div>
-    </a>
-    <a href="/table">
-        <div>
-            <img src="/img/table.png" alt="">
-            <p>Table</p>
-        </div>
-    </a>
-    <div onclick="registerIncome()"*>
-        <img src="/img/pluss.png" alt="">
-        <p>Income</p>
-    </div>
-    <div onclick="registerIncome()"*>
-        <img src="/img/pluss.png" alt="">
-        <p>Expense</p>
-    </div>
-    <a href="/lists">
-        <div>
-            <img src="/img/list.png" alt="">
-            <p>Lists</p>
-        </div>
-    </a>
-    <a href="/settings">
-        <div>
-            <img src="/img/gear.png" alt="">
-            <p>Settings</p>
-        </div>
-    </a>
-</nav>
-
+<?php
+require 'navLinks.php';
+?>
 <!-- income form -->
 <div class="floatingForm" id="incomeForm">
-    <form class="data" method="post" action="" onsubmit="registerIncome(event)">
+    <form class="data" method="post" action="/prosess/income.php" onsubmit="registerIncome(event)">
         <span>
             <h2>register income</h2>
             <img src="/img/pluss.png" alt="" onclick="registerIncome()"*>
         </span>
         <div class="dataDetails" style="grid-column: 1 /3">
-            <label for=""><p>Chost</p></label>
-            <input type="text" name="txtChost" id="txtChost" />
+            <label for=""><p>Amount</p></label>
+            <input type="number" name="txtAmount" id="txtAmount" />
         </div>
         <div class="dataDetails" style="grid-column: 1 /3">
             <label for=""><p>Category</p><img onclick="registerIncomeCategory(); registerIncome();" src="/img/pluss.png" alt=""></label>
             <select name="txtIncomecategory_id" id="txtIncomecategory_id">
-                <option value="">Unknown</option>
                 <?php while ($rowIncomecategory = mysqli_fetch_array($incomecategory)) {
                     echo "<option value='{$rowIncomecategory["id"]}'>{$rowIncomecategory["incomecategory_name"]}</option>";
                 }
@@ -92,16 +44,16 @@ $conn = null;
         </div>
         <div class="dataDetails" style="grid-column: 1 /3">
             <label for=""><p>Source</p><img onclick="registerIncomeSource(), registerIncome()" src="/img/pluss.png" alt=""></label>
-            <select name="txtSource_id" id="txtSource_id">
+            <select name="txtIncomesource_id" id="txtIncomesource_id">
                 <option value="">Unknown</option>
-                <?php while ($rowSource = mysqli_fetch_array($source)) {
-                    echo "<option value='{$rowSource["id"]}'>{$rowSource["source_name"]}</option>";
+                <?php while ($rowIncomesource = mysqli_fetch_array($incomesource)) {
+                    echo "<option value='{$rowIncomesource["id"]}'>{$rowIncomesource["incomesource_name"]}</option>";
                 }
                 ?>
             </select>
         </div>
         <div class="dataDetails">
-            <label for=""><p>year</p></label>
+            <label for=""><p>year</p><img onclick="registerYear(), registerIncome();" src="/img/pluss.png" alt=""></label>
             <select name="txtYear_id" id="txtYear_id">
                 <?php while ($rowYear = mysqli_fetch_array($year)) {
                     echo "<option value='{$rowYear["id"]}'>{$rowYear["id"]}</option>";
@@ -161,8 +113,21 @@ $conn = null;
             <img src="/img/pluss.png" alt="" onclick="registerIncomeSource()">
         </span>
         <div class="dataDetails" style="grid-column: 1 / 3;">
-            <label for="source"><p>Source</p></label>
-            <input type="text" id="source" name="source">
+            <label for="incomesource"><p>Source</p></label>
+            <input type="text" id="incomesource" name="incomesource">
+        </div>
+        <button type="submit" name="submit">Submit</button>
+    </form>
+</div>
+<div class="floatingForm" id="registerYear">
+    <form action="/prosess/registerYear.php" method="post" class="data">
+        <span>
+            <h2>add income source</h2>
+            <img src="/img/pluss.png" alt="" onclick="registerYear()">
+        </span>
+        <div class="dataDetails" style="grid-column: 1 / 3;">
+            <label for="years"><p>Year</p></label>
+            <input type="number" id="years" name="years">
         </div>
         <button type="submit" name="submit">Submit</button>
     </form>
@@ -175,6 +140,9 @@ $conn = null;
       display: none; /* Initially visible */
     }
     #registerIncomeSource {
+      display: none; /* Initially visible */
+    }
+    #registerYear{
       display: none; /* Initially visible */
     }
 </style>
@@ -201,6 +169,16 @@ $conn = null;
   }
   function registerIncomeSource() {
     var element = document.getElementById("registerIncomeSource");
+
+    // Toggle between display block and none
+    if (element.style.display === "flex") {
+      element.style.display = "none";
+    } else {
+      element.style.display = "flex";
+    }
+  }
+  function registerYear() {
+    var element = document.getElementById("registerYear");
 
     // Toggle between display block and none
     if (element.style.display === "flex") {

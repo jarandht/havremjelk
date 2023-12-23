@@ -1,7 +1,7 @@
 <?php
-require 'components/head.php';
+require 'head.php';
 
-require 'components/creds.php';
+require 'creds.php';
 
 
 try {
@@ -25,18 +25,18 @@ try {
         echo "Error creating 'incomecategory' table: " . implode(", ", $errorInfo) . "<br>";
     }
 
-    // SQL query to create the 'source' table
-    $createSourceTableSQL = "CREATE TABLE IF NOT EXISTS source (
+    // SQL query to create the 'incomesource' table
+    $createIncomeSourceTableSQL = "CREATE TABLE IF NOT EXISTS incomesource (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        source_name VARCHAR(255) NOT NULL
+        incomesource_name VARCHAR(255) NOT NULL
     )";
 
     // Execute the query
-    if ($conn->exec($createSourceTableSQL) !== false) {
-        echo "Table 'source' created successfully<br>";
+    if ($conn->exec($createIncomeSourceTableSQL) !== false) {
+        echo "Table 'incomesource' created successfully<br>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'source' table: " . implode(", ", $errorInfo) . "<br>";
+        echo "Error creating 'incomesource' table: " . implode(", ", $errorInfo) . "<br>";
     }
 
     // SQL query to create the 'days' table
@@ -150,7 +150,7 @@ try {
 
     // Insert years data if the 'years' table is created
     if ($conn->query("SELECT COUNT(*) FROM years")->fetchColumn() == 0) {
-        $insertYearsDataSQL = "INSERT INTO years (id) VALUES (2020),(2021),(2022),(2023),(2024),(2025),(2026),(2027),(2028),(2029),(2030)";
+        $insertYearsDataSQL = "INSERT INTO years (id) VALUES (2024)";
 
         if ($conn->exec($insertYearsDataSQL) !== false) {
             echo "Years data inserted successfully<br>";
@@ -164,19 +164,19 @@ try {
     // SQL query to create the 'income' table with foreign key constraints
     $createIncomeTableSQL = "CREATE TABLE IF NOT EXISTS income (
         income_id INT AUTO_INCREMENT PRIMARY KEY,
-        chost VARCHAR(255) NOT NULL,
+        amount VARCHAR(255) NOT NULL,
         day_id INT,
         month_id INT,
         date_id INT,
         year_id INT,
         incomecategory_id INT,
-        source_id INT,
+        incomesource_id INT,
         FOREIGN KEY (day_id) REFERENCES days(id),
         FOREIGN KEY (month_id) REFERENCES months(id),
         FOREIGN KEY (date_id) REFERENCES dates(id),
         FOREIGN KEY (year_id) REFERENCES years(id),
         FOREIGN KEY (incomecategory_id) REFERENCES incomecategory(id),
-        FOREIGN KEY (source_id) REFERENCES source(id)
+        FOREIGN KEY (incomesource_id) REFERENCES incomesource(id)
     )";
 
     // Execute the query
@@ -187,31 +187,60 @@ try {
         echo "Error creating 'income' table: " . implode(", ", $errorInfo);
     }
 
+    
+    // SQL query to create the 'source' table
+    $createExpenseSourceTableSQL = "CREATE TABLE IF NOT EXISTS expensesource (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        expensesource_name VARCHAR(255) NOT NULL
+    )";
+
+    // Execute the query
+    if ($conn->exec($createExpenseSourceTableSQL) !== false) {
+        echo "Table 'expensesource' created successfully<br>";
+    } else {
+        $errorInfo = $conn->errorInfo();
+        echo "Error creating 'expensesource' table: " . implode(", ", $errorInfo) . "<br>";
+    }
+    
+    // SQL query to create the 'source' table
+    $createExpenseCategoryTableSQL = "CREATE TABLE IF NOT EXISTS expensecategory (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        expensecategory_name VARCHAR(255) NOT NULL
+    )";
+
+    // Execute the query
+    if ($conn->exec($createExpenseCategoryTableSQL) !== false) {
+        echo "Table 'expensecategory' created successfully<br>";
+    } else {
+        $errorInfo = $conn->errorInfo();
+        echo "Error creating 'expensecategory' table: " . implode(", ", $errorInfo) . "<br>";
+    }
 
     // SQL query to create the 'expense' table with foreign key constraints
-    $createIncomeTableSQL = "CREATE TABLE IF NOT EXISTS expense (
+    $createExpenseTableSQL = "CREATE TABLE IF NOT EXISTS expense (
         expense_id INT AUTO_INCREMENT PRIMARY KEY,
         chost VARCHAR(255) NOT NULL,
         day_id INT,
         month_id INT,
         date_id INT,
         year_id INT,
+        expensesource_id INT,
         expensecategory_id INT,
-        expense_id INT,
         FOREIGN KEY (day_id) REFERENCES days(id),
         FOREIGN KEY (month_id) REFERENCES months(id),
         FOREIGN KEY (date_id) REFERENCES dates(id),
         FOREIGN KEY (year_id) REFERENCES years(id),
-        FOREIGN KEY (expensecategory_id) REFERENCES expensecategory(id),
-        FOREIGN KEY (expense_id) REFERENCES expense(id)
+        FOREIGN KEY (expensesource_id) REFERENCES expensesource(id)
+        FOREIGN KEY (expensecategory_id) REFERENCES expensecategory(id)
     )";
+
 
     // Execute the query
     if ($conn->exec($createIncomeTableSQL) !== false) {
-        echo "Table 'income' created successfully";
+        echo "Table 'expense' created successfully";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'income' table: " . implode(", ", $errorInfo);
+        echo "Error creating 'expense' table: " . implode(", ", $errorInfo);
     }
 
 } catch (PDOException $e) {

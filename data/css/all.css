@@ -43,3 +43,24 @@ main{
 h1{
     font-size: 30px;
 }
+.error{
+    position: absolute;
+    width: max-content;
+    z-index: 999;
+    top: -100px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    background-color: var(--dark00);
+    border: 3px solid var(--blue10);
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 20px;
+    animation: error 10s ease;
+}
+@keyframes error{
+    0% {top: -100px}
+    10% {top: 20px}
+    90% {top: 20px}
+    100% {top: -100px}
+}
