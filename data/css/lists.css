@@ -3,7 +3,7 @@
     justify-content: center;
     gap: 10px;
     margin-top: 10px;
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: max-content;
     grid-template-rows: max-content 1fr;
 }
 .listContent div{
@@ -11,32 +11,39 @@
     justify-content: center;
 }
 .listSources{
-    display: grid !important;
-    gap: 5px;
+    width: max-content;
+    display: flex !important;
+    gap: 7px;
     grid-row: 1 / 3;
     grid-auto-rows: max-content;
 }
 .listSources div{
     padding: 10px;
-    border-radius: 5px;
     font-size: 20px;
-    background-color: var(--dark10);
     height: min-content;
+    background-color: var(--dark20);
+    text-align: center;
+    padding: 10px;
+    border-radius: 3px;
+    outline: 2px solid var(--dark10);
 }
 .listSearch{
+    width: 1fr;
     height: 40px;
     display: grid;
     align-items: center;
     grid-template-columns: max-content 1fr;
     width: 1fr;
     border-radius: 5px;
-    background-color: var(--dark10);
     padding: 10px 15px;
-    gap: 10px
-    ;
+    gap: 10px;
+    background-color: var(--dark20);
+    text-align: center;
+    padding: 10px;
+    outline: 2px solid var(--dark10);
 }
 .listSearch input{
-    background-color: var(--dark10);
+    background-color: inherit;
     font-size: 20px;
     height: max-content;
     border: none;
@@ -59,23 +66,19 @@
     filter: opacity(.5);
     z-index: 1;
 }
-.lsitTable{
-    background-color: var(--dark10);
-    width: 100%;
-}
 :is(.tableTH th, .tableTD td){
-    background-color: var(--dark10);
+    text-align: center;
     padding: 10px;
-    border-radius: 3px;
+    outline: 1px solid var(--dark10);
 }
 .tableTH th{
     font-size: 20px;
+    background-color: var(--blue10);
 }
 .tableTD td{
     font-size: 18px;
-    color: var(--light10);
-    text-align: center;
-    height: max-content;
+    background-color: var(--dark20);
+    padding: 15px;
 }
 .tableTD .listdelete::after{
     content: '';
@@ -94,4 +97,7 @@
     background-image: url(../img/pen.png);
     background-size: cover;
     filter: brightness(1);
+}
+.listsSelected div{
+    background-color: var(--blue10);
 }

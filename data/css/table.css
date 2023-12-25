@@ -1,0 +1,12 @@
+.yearOverviewTable{
+    border-spacing: 2px;
+    background-color: var(--dark10);
+}
+.yearOverviewTable :is(th){
+    background-color: var(--blue10);
+    padding: 10px;
+}
+.yearOverviewTable :is(td){
+    background-color: var(--dark20);
+    padding: 10px;
+}

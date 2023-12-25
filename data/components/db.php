@@ -1,3 +1,77 @@
+User
+<?php
+require '../components/head.php';
+require '../components/creds.php';
+
+// Connect to the database
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch months data
+$sqlMonths = "SELECT id, month_name FROM months";
+$monthsResult = $conn->query($sqlMonths);
+$months = array();
+while ($row = $monthsResult->fetch_assoc()) {
+    $months[$row['id']] = $row['month_name'];
+}
+
+// Fetch expenses data
+$sqlExpenses = "SELECT month_id, chost FROM expense";
+$expensesResult = $conn->query($sqlExpenses);
+$expenses = array();
+while ($row = $expensesResult->fetch_assoc()) {
+    $expenses[$row['month_id']][] = $row['chost'];
+}
+
+// Debugging: Output the fetched expenses
+echo '<pre>';
+print_r($expenses);
+echo '</pre>';
+
+$conn->close();
+?>
+
+<body>
+    <main>
+        <?php require '../components/nav.php'; ?>
+        <section class="home">
+            <h1>Table</h1>
+            <section class="content">
+                <table class="yearOverviewTable">
+                    <tr>
+                        <th>Month</th>
+                        <th>Chost</th>
+                    </tr>
+                    <?php foreach ($months as $monthId => $monthName) : ?>
+                        <tr>
+                            <td><?php echo $monthName; ?></td>
+                            <td>
+                                <?php
+                                if (isset($expenses[$monthId]) && !empty($expenses[$monthId])) {
+                                    // Display expenses for the corresponding month
+                                    echo implode(', ', $expenses[$monthId]);
+                                } else {
+                                    echo '-'; // No expenses for this month
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            </section>
+        </section>
+    </main>
+</body>
+</html>
+
+
+can you seperate the expense chost wich belong to differant expensecategories into differant row like month,category,chategory2
+
+
 <?php
 require 'head.php';
 
@@ -181,7 +255,7 @@ try {
 
     // Execute the query
     if ($conn->exec($createIncomeTableSQL) !== false) {
-        echo "Table 'income' created successfully";
+        echo "Table 'income' created successfully<br>";
     } else {
         $errorInfo = $conn->errorInfo();
         echo "Error creating 'income' table: " . implode(", ", $errorInfo);
@@ -230,18 +304,18 @@ try {
         FOREIGN KEY (month_id) REFERENCES months(id),
         FOREIGN KEY (date_id) REFERENCES dates(id),
         FOREIGN KEY (year_id) REFERENCES years(id),
-        FOREIGN KEY (expensesource_id) REFERENCES expensesource(id)
+        FOREIGN KEY (expensesource_id) REFERENCES expensesource(id),
         FOREIGN KEY (expensecategory_id) REFERENCES expensecategory(id)
     )";
 
-
     // Execute the query
-    if ($conn->exec($createIncomeTableSQL) !== false) {
-        echo "Table 'expense' created successfully";
+    if ($conn->exec($createExpenseTableSQL) !== false) {
+        echo "Table 'expense' created successfully<br>";
     } else {
         $errorInfo = $conn->errorInfo();
         echo "Error creating 'expense' table: " . implode(", ", $errorInfo);
     }
+
 
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();

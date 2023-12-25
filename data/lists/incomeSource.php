@@ -4,7 +4,7 @@ require '../components/creds.php';
 $conn = new mysqli($servername, $username, $password, $database);
 
 // Fetch incomeCategory data
-$sqlIncomeSourceData = "SELECT id, source_name FROM source";
+$sqlIncomeSourceData = "SELECT id, incomesource_name FROM incomesource";
 $incomeSourceData = $conn->query($sqlIncomeSourceData);
 
 // Delete income category
@@ -12,7 +12,7 @@ if (isset($_GET["deleteIncomeSource"])) {
     $incomesourceid = $conn->real_escape_string($_GET["deleteIncomeSource"]);
 
     // Attempt to delete the income category
-    $deleteResult = $conn->query("DELETE FROM source WHERE id = '$incomesourceid'");
+    $deleteResult = $conn->query("DELETE FROM incomesource WHERE id = '$incomesourceid'");
 
     // Check if the delete query was successful
     if ($deleteResult) {
@@ -50,7 +50,7 @@ require 'listComponents/listTop.php';
         while ($row = $incomeSourceData->fetch_assoc()) {
         ?>
             <tr class="tableTD">
-                <td><?php echo $row["source_name"]; ?></td>
+                <td><?php echo $row["incomesource_name"]; ?></td>
                 <td><a class="listedit" href="?editIncomeSource=<?php echo $row["id"]; ?>"></a></td>
                 <td><a class="listdelete" href="?deleteIncomeSource=<?php echo $row["id"]; ?>"></a></td>
             </tr>
