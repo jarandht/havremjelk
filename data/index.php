@@ -1,5 +1,4 @@
 <?php
-require 'components/db.php';
 require 'components/head.php';
 
 ?>

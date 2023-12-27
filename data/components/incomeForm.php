@@ -60,7 +60,7 @@ $conn->close();
         </div>
         <div class="dataDetails">
             <label for=""><p>month</p></label>
-            <select name="txtMonth_id" id="txtMonth_id" require>
+            <select name="txtMonth_id[]" id="txtMonth_id" required>
                 <?php while ($rowMonth = mysqli_fetch_array($month)) {
                     echo "<option value='{$rowMonth["id"]}'>{$rowMonth["month_name"]}</option>";
                 }

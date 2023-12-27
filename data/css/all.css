@@ -30,6 +30,8 @@ body{
     --dark30: #303030;
     --blue00: lightblue;
     --blue10: rgb(32, 134, 175);;
+    --incomegreen: rgba(0, 128, 0, 0.555);
+    --expensered: rgba(255, 0, 0, 0.514);
 }
 
 main{

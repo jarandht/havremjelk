@@ -1,6 +1,10 @@
 .yearOverviewTable{
-    border-spacing: 2px;
+    border-spacing: 1px;
     background-color: var(--dark10);
+    border-radius: 10px;
+    overflow: hidden;
+    outline: 2px solid var(--dark10);
+    outline-offset: -1px;
 }
 .yearOverviewTable :is(th){
     background-color: var(--blue10);
@@ -9,4 +13,35 @@
 .yearOverviewTable :is(td){
     background-color: var(--dark20);
     padding: 10px;
+}
+.tableyear div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.tableyear :is(select, option){
+    background-color: var(--blue10);
+    border: none;
+    outline: none;
+    font-size: 18px;
+    padding: 10px;
+}
+.tableyear select{
+    padding: 0 10px;
+}
+.tableyear img{
+    height: 10px;
+}
+.tableincome{
+    background-color: var(--incomegreen) !important;
+}
+.tableexpense{
+    background-color: var(--expensered) !important;
+}
+.tablespacer{
+    padding: 0 !important;
+}
+.tableAvrageSumary{
+    background-color: var(--dark30) !important;
 }
