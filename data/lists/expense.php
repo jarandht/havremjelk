@@ -4,7 +4,7 @@ require '../components/creds.php';
 $conn = new mysqli($servername, $username, $password, $database);
 
 // Fetch expense data
-$sqlExpenseData = "SELECT expense_id, chost, expensesource_id, expensecategory_id, day_id, date_id, month_id, year_id FROM expense";
+$sqlExpenseData = "SELECT expense_id, chost, expensesource_id, expensecategory_id, day_id, date_id, month_id, year_id, store_id FROM expense";
 $expenseDataResult = $conn->query($sqlExpenseData);
 
 // Check if the query was successful
@@ -68,6 +68,14 @@ while ($row = $yearResult->fetch_assoc()) {
     $years[$row['id']] = $row['id'];
 }
 
+// Fetch store data
+$sqlStore = "SELECT store_name, id FROM store";
+$storeResult = $conn->query($sqlStore);
+$stores = array();
+while ($row = $storeResult->fetch_assoc()) {
+    $stores[$row['id']] = $row['store_name'];
+}
+
 // Delete expense
 if (isset($_GET["deleteExpense"])) {
     $expenseid = $conn->real_escape_string($_GET["deleteExpense"]);
@@ -86,6 +94,7 @@ if (isset($_GET["deleteExpense"])) {
             <th>Cost</th>
             <th>Source</th>
             <th>Category</th>
+            <th>Store</th>
             <th>Day</th>
             <th>Date</th>
             <th>Month</th>
@@ -100,6 +109,7 @@ if (isset($_GET["deleteExpense"])) {
                 <td><?php echo $row["chost"]; ?>kr</td>
                 <td><?php echo isset($expenseSource[$row["expensesource_id"]]) ? $expenseSource[$row["expensesource_id"]] : ''; ?></td>
                 <td><?php echo isset($expenseCategory[$row["expensecategory_id"]]) ? $expenseCategory[$row["expensecategory_id"]] : ''; ?></td>
+                <td><?php echo isset($stores[$row["store_id"]]) ? $stores[$row["store_id"]] : ''; ?></td>
                 <td><?php echo isset($days[$row["day_id"]]) ? $days[$row["day_id"]] : ''; ?></td>
                 <td><?php echo isset($dates[$row["date_id"]]) ? $dates[$row["date_id"]] : ''; ?></td>
                 <td><?php echo isset($months[$row["month_id"]]) ? $months[$row["month_id"]] : ''; ?></td>

@@ -18,6 +18,7 @@
                     <a href="/lists/income.php" <?php echo strpos($current_page, '/lists/income.php') !== false ? 'class="listsSelected"' : ''; ?>><div>Income</div></a>
                     <a href="/lists/incomeCategory.php" <?php echo strpos($current_page, '/lists/incomeCategory.php') !== false ? 'class="listsSelected"' : ''; ?>><div>Income Categories</div></a>
                     <a href="/lists/incomeSource.php" <?php echo strpos($current_page, '/lists/incomeSource.php') !== false ? 'class="listsSelected"' : ''; ?>><div>Income Sources</div></a>
+                    <a href="/lists/store.php" <?php echo strpos($current_page, '/lists/store.php') !== false ? 'class="listsSelected"' : ''; ?>><div>Stores</div></a>
                     <a href="/lists/years.php" <?php echo strpos($current_page, '/lists/years.php') !== false ? 'class="listsSelected"' : ''; ?>><div>Years</div></a>
                 </div>
                 <div class="listSearch">

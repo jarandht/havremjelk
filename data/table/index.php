@@ -52,7 +52,16 @@ if (!$incomeCategoriesResult) {
 
 $incomeCategories = array();
 while ($row = $incomeCategoriesResult->fetch_assoc()) {
-    $incomeCategories[$row['id']] = $row['incomecategory_name'];
+    $incomeCategoryId = $row['id'];
+    $incomeCategoryName = $row['incomecategory_name'];
+
+    // Check if there is any income for the current category
+    $sqlCheckIncome = "SELECT 1 FROM income WHERE year_id = $selectedYear AND incomecategory_id = $incomeCategoryId LIMIT 1";
+    $checkIncomeResult = $conn->query($sqlCheckIncome);
+
+    if ($checkIncomeResult->num_rows > 0) {
+        $incomeCategories[$incomeCategoryId] = $incomeCategoryName;
+    }
 }
 
 // Fetch expense categories data
@@ -66,7 +75,16 @@ if (!$expenseCategoriesResult) {
 
 $expenseCategories = array();
 while ($row = $expenseCategoriesResult->fetch_assoc()) {
-    $expenseCategories[$row['id']] = $row['expensecategory_name'];
+    $expenseCategoryId = $row['id'];
+    $expenseCategoryName = $row['expensecategory_name'];
+
+    // Check if there is any expense for the current category
+    $sqlCheckExpense = "SELECT 1 FROM expense WHERE year_id = $selectedYear AND expensecategory_id = $expenseCategoryId LIMIT 1";
+    $checkExpenseResult = $conn->query($sqlCheckExpense);
+
+    if ($checkExpenseResult->num_rows > 0) {
+        $expenseCategories[$expenseCategoryId] = $expenseCategoryName;
+    }
 }
 
 // Fetch expenses data for the selected year
@@ -133,7 +151,7 @@ $conn->close();
                 <form id="yearForm" method="post">
                     <table class="yearOverviewTable">
                         <tr>
-                            <th colspan="16" class="tableyear">
+                            <th class="tableyear">
                                 <div>
                                     <select name="selected_year" id="selected_year" onchange="document.getElementById('yearForm').submit()">
                                         <?php foreach ($years as $year) : ?>
@@ -142,14 +160,11 @@ $conn->close();
                                     </select>
                                 </div>
                             </th>
-                        </tr>
-                        <tr>
-                            <th></th>
                             <?php foreach ($months as $monthId => $monthName) : ?>
-                                <th><?php echo $monthName; ?></th>
+                                <th class="tablemonths"><?php echo $monthName; ?></th>
                             <?php endforeach; ?>
-                            <th>Average</th>
-                            <th>Total</th>
+                            <th class="tablemonths">Average</th>
+                            <th class="tablemonths">Total</th>
                         </tr>
                         <?php foreach ($incomeCategories as $categoryId => $categoryName) : ?>
                             <tr>
@@ -161,7 +176,7 @@ $conn->close();
                                         <?php
                                         if (isset($income[$monthId][$categoryId]) && count($income[$monthId][$categoryId]) > 0) {
                                             $result = array_sum(array_map('floatval', $income[$monthId][$categoryId]));
-                                            echo round($result, 2), "kr";
+                                            echo number_format(round($result, 2), 0, '.', ' '), "kr";
                                             $totalIncome += $result;
                                         } else {
                                             echo '-';
@@ -169,13 +184,13 @@ $conn->close();
                                         ?>
                                     </td>
                                 <?php endforeach; ?>
-                                <td class="tableAvrageSumary"><?php echo ($totalIncome != 0) ? round($totalIncome / 12, 0) . "kr" : '-'; ?></td>
-                                <td class="tableAvrageSumary"><?php echo ($totalIncome != 0) ? round($totalIncome, 2) . "kr" : '-'; ?></td>
+                                <td class="tableAvrageSumary"><?php echo ($totalIncome != 0) ? number_format(round($totalIncome / 12, 0), 0, '.', ' ') . "kr" : '-'; ?></td>
+                                <td class="tableAvrageSumary"><?php echo ($totalIncome != 0) ? number_format(round($totalIncome, 2), 0, '.', ' ') . "kr" : '-'; ?></td>
                             </tr>
                         <?php endforeach; ?>
                         <tr>
-                            <th colspan="13"></th>
-                            <th colspan="2"></th>
+                            <th class="tableRowSpcaer" colspan="13"></th>
+                            <th class="tableRowSpcaer" colspan="2"></th>
                         </tr>
                         <?php foreach ($expenseCategories as $categoryId => $categoryName) : ?>
                             <tr>
@@ -187,7 +202,7 @@ $conn->close();
                                         <?php
                                         if (isset($expenses[$monthId][$categoryId]) && count($expenses[$monthId][$categoryId]) > 0) {
                                             $result = array_sum(array_map('floatval', $expenses[$monthId][$categoryId]));
-                                            echo round($result, 2), "kr";
+                                            echo number_format(round($result, 2), 0, '.', ' '), "kr";
                                             $totalExpense += $result;
                                         } else {
                                             echo '-';
@@ -195,29 +210,42 @@ $conn->close();
                                         ?>
                                     </td>
                                 <?php endforeach; ?>
-                                <td class="tableAvrageSumary"><?php echo ($totalExpense != 0) ? round($totalExpense / 12, 0) . "kr" : '-'; ?></td>
-                                <td class="tableAvrageSumary"><?php echo ($totalExpense != 0) ? round($totalExpense, 2) . "kr" : '-'; ?></td>
+                                <td class="tableAvrageSumary"><?php echo ($totalExpense != 0) ? number_format(round($totalExpense / 12, 0), 0, '.', ' ') . "kr" : '-'; ?></td>
+                                <td class="tableAvrageSumary"><?php echo ($totalExpense != 0) ? number_format(round($totalExpense, 2), 0, '.', ' ') . "kr" : '-'; ?></td>
                             </tr>
                         <?php endforeach; ?>
                         <tr>
-                            <th colspan="13"></th>
-                            <th colspan="2"></th>
+                            <th class="tableRowSpcaer" colspan="13"></th>
+                            <th class="tableRowSpcaer" colspan="2"></th>
                         </tr>
                         <tr>
                             <th>Total Income</th>
                             <?php foreach ($months as $monthId => $monthName) : ?>
-                                <td><?php echo ($totalIncomePerMonth[$monthId] != 0) ? round($totalIncomePerMonth[$monthId], 2) . "kr" : '-'; ?></td>
+                                <?php
+                                $totalIncomeValue = round($totalIncomePerMonth[$monthId], 2);
+                                $tdClass = ($totalIncomeValue != 0) ? 'tableincome' : '';
+                                ?>
+                                <td class="<?php echo $tdClass; ?>"><?php echo ($totalIncomeValue != 0) ? number_format($totalIncomeValue, 0, '.', ' ') . "kr" : '-'; ?></td>
                             <?php endforeach; ?>
-                            <td class="tableAvrageSumary"><?php echo (array_sum($totalIncomePerMonth) != 0) ? round(array_sum($totalIncomePerMonth) / 12, 0) . "kr" : '-'; ?></td>
-                            <td class="tableAvrageSumary"><?php echo (array_sum($totalIncomePerMonth) != 0) ? round(array_sum($totalIncomePerMonth), 2) . "kr" : '-'; ?></td>
+                            <td class="tableAvrageSumary"><?php echo (array_sum($totalIncomePerMonth) != 0) ? number_format(round(array_sum($totalIncomePerMonth) / 12, 0), 0, '.', ' ') . "kr" : '-'; ?></td>
+                            <td class="tableAvrageSumary"><?php echo (array_sum($totalIncomePerMonth) != 0) ? number_format(round(array_sum($totalIncomePerMonth), 2), 0, '.', ' ') . "kr" : '-'; ?></td>
                         </tr>
                         <tr>
                             <th>Total Expense</th>
                             <?php foreach ($months as $monthId => $monthName) : ?>
-                                <td><?php echo ($totalExpensePerMonth[$monthId] != 0) ? round($totalExpensePerMonth[$monthId], 2) . "kr" : '-'; ?></td>
+                                <?php
+                                $totalExpenseValue = round($totalExpensePerMonth[$monthId], 2);
+                                $tdClass = ($totalExpenseValue != 0) ? 'tableexpense' : '';
+                                ?>
+                                <td class="<?php echo $tdClass; ?>"><?php echo ($totalExpenseValue != 0) ? number_format($totalExpenseValue, 0, '.', ' ') . "kr" : '-'; ?></td>
                             <?php endforeach; ?>
-                            <td class="tableAvrageSumary"><?php echo (array_sum($totalExpensePerMonth) != 0) ? round(array_sum($totalExpensePerMonth) / 12, 0) . "kr" : '-'; ?></td>
-                            <td class="tableAvrageSumary"><?php echo (array_sum($totalExpensePerMonth) != 0) ? round(array_sum($totalExpensePerMonth), 2) . "kr" : '-'; ?></td>
+                            <td class="tableAvrageSumary"><?php echo (array_sum($totalExpensePerMonth) != 0) ? number_format(round(array_sum($totalExpensePerMonth) / 12, 0), 0, '.', ' ') . "kr" : '-'; ?></td>
+                            <td class="tableAvrageSumary"><?php echo (array_sum($totalExpensePerMonth) != 0) ? number_format(round(array_sum($totalExpensePerMonth), 2), 0, '.', ' ') . "kr" : '-'; ?></td>
+                        </tr>
+                        <tr>
+                            <th class="tableRowSpcaer" colspan="1"></th>
+                            <th class="tableRowSpcaer" colspan="12"></th>
+                            <th class="tableRowSpcaer" colspan="2"></th>
                         </tr>
                         <tr>
                             <th>Income - Expense</th>
@@ -228,10 +256,13 @@ $conn->close();
                             }
                             ?>
                             <?php foreach ($totalIncomeExpenseDiff as $monthId => $diff) : ?>
-                                <td><?php echo ($diff != 0) ? $diff . "kr" : '-'; ?></td>
+                                <?php
+                                $tdClass = ($diff < 0) ? 'tableexpense' : (($diff > 0) ? 'tableincome' : ''); // Add empty string if value is zero
+                                ?>
+                                <td class="<?php echo $tdClass; ?>"><?php echo ($diff != 0) ? number_format($diff, 0, '.', ' ') . "kr" : '-'; ?></td>
                             <?php endforeach; ?>
-                            <td class="tableAvrageSumary"><?php echo (array_sum($totalIncomeExpenseDiff) != 0) ? round(array_sum($totalIncomeExpenseDiff) / 12, 0) . "kr" : '-'; ?></td>
-                            <td class="tableAvrageSumary"><?php echo (array_sum($totalIncomeExpenseDiff) != 0) ? round(array_sum($totalIncomeExpenseDiff), 2) . "kr" : '-'; ?></td>
+                            <td class="tableAvrageSumary"><?php echo (array_sum($totalIncomeExpenseDiff) != 0) ? number_format(round(array_sum($totalIncomeExpenseDiff) / 12, 0), 0, '.', ' ') . "kr" : '-'; ?></td>
+                            <td class="tableAvrageSumary"><?php echo (array_sum($totalIncomeExpenseDiff) != 0) ? number_format(round(array_sum($totalIncomeExpenseDiff), 2), 0, '.', ' ') . "kr" : '-'; ?></td>
                         </tr>
                     </table>
                 </form>

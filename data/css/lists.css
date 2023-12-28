@@ -89,6 +89,9 @@
     background-size: cover;
     filter: brightness(1);
 }
+.tableTD .listdelete:hover{
+    background-color: red;
+}
 .tableTD .listedit::after{
     content: '';
     display: block;

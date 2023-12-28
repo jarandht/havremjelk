@@ -1,7 +1,6 @@
 <?php
 require 'creds.php';
 
-
 try {
     // Create a connection
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
@@ -17,10 +16,10 @@ try {
 
     // Execute the query
     if ($conn->exec($createIncomecategoryTableSQL) !== false) {
-        echo "Table 'incomecategory' created successfully<br>";
+        echo "<p>Table 'incomecategory' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'incomecategory' table: " . implode(", ", $errorInfo) . "<br>";
+        echo "<p>Error creating 'incomecategory' table: " . implode(", ", $errorInfo) . "</p>";
     }
 
     // SQL query to create the 'incomesource' table
@@ -31,10 +30,10 @@ try {
 
     // Execute the query
     if ($conn->exec($createIncomeSourceTableSQL) !== false) {
-        echo "Table 'incomesource' created successfully<br>";
+        echo "<p>Table 'incomesource' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'incomesource' table: " . implode(", ", $errorInfo) . "<br>";
+        echo "<p>Error creating 'incomesource' table: " . implode(", ", $errorInfo) . "</p>";
     }
 
     // SQL query to create the 'days' table
@@ -45,10 +44,10 @@ try {
 
     // Execute the query
     if ($conn->exec($createDaysTableSQL) !== false) {
-        echo "Table 'days' created successfully<br>";
+        echo "<p>Table 'days' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'days' table: " . implode(", ", $errorInfo) . "<br>";
+        echo "<p>Error creating 'days' table: " . implode(", ", $errorInfo) . "</p>";
     }
 
     // Insert days data if the 'days' table is created
@@ -63,10 +62,10 @@ try {
             (7, 'Sunday')";
 
         if ($conn->exec($insertDaysDataSQL) !== false) {
-            echo "Days data inserted successfully<br>";
+            echo "<p>Days data inserted successfully</p>";
         } else {
             $errorInfo = $conn->errorInfo();
-            echo "Error inserting days data: " . implode(", ", $errorInfo) . "<br>";
+            echo "<p>Error inserting days data: " . implode(", ", $errorInfo) . "</p>";
         }
     }
 
@@ -78,10 +77,10 @@ try {
 
     // Execute the query
     if ($conn->exec($createMonthsTableSQL) !== false) {
-        echo "Table 'months' created successfully<br>";
+        echo "<p>Table 'months' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'months' table: " . implode(", ", $errorInfo) . "<br>";
+        echo "<p>Error creating 'months' table: " . implode(", ", $errorInfo) . "</p>";
     }
 
     // Insert months data if the 'months' table is created
@@ -101,10 +100,10 @@ try {
             (12, 'December')";
 
         if ($conn->exec($insertMonthsDataSQL) !== false) {
-            echo "Months data inserted successfully<br>";
+            echo "<p>Months data inserted successfully</p>";
         } else {
             $errorInfo = $conn->errorInfo();
-            echo "Error inserting months data: " . implode(", ", $errorInfo) . "<br>";
+            echo "<p>Error inserting months data: " . implode(", ", $errorInfo) . "</p>";
         }
     }
 
@@ -115,10 +114,10 @@ try {
 
     // Execute the query
     if ($conn->exec($createDatesTableSQL) !== false) {
-        echo "Table 'dates' created successfully<br>";
+        echo "<p>Table 'dates' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'dates' table: " . implode(", ", $errorInfo) . "<br>";
+        echo "<p>Error creating 'dates' table: " . implode(", ", $errorInfo) . "</p>";
     }
 
     // Insert dates data if the 'dates' table is created
@@ -126,10 +125,10 @@ try {
         $insertDatesDataSQL = "INSERT INTO dates (id) VALUES (1),(2),(3),(4),(5),(6),(7),(8),(9),(10),(11),(12),(13),(14),(15),(16),(17),(18),(19),(20),(21),(22),(23),(24),(25),(26),(27),(28),(29),(30),(31)";
 
         if ($conn->exec($insertDatesDataSQL) !== false) {
-            echo "Dates data inserted successfully<br>";
+            echo "<p>Dates data inserted successfully</p>";
         } else {
             $errorInfo = $conn->errorInfo();
-            echo "Error inserting dates data: " . implode(", ", $errorInfo) . "<br>";
+            echo "<p>Error inserting dates data: " . implode(", ", $errorInfo) . "</p>";
         }
     }
 
@@ -140,10 +139,10 @@ try {
 
     // Execute the query
     if ($conn->exec($createYearsTableSQL) !== false) {
-        echo "Table 'years' created successfully<br>";
+        echo "<p>Table 'years' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'years' table: " . implode(", ", $errorInfo) . "<br>";
+        echo "<p>Error creating 'years' table: " . implode(", ", $errorInfo) . "</p>";
     }
 
     // Insert years data if the 'years' table is created
@@ -151,13 +150,12 @@ try {
         $insertYearsDataSQL = "INSERT INTO years (id) VALUES (2024)";
 
         if ($conn->exec($insertYearsDataSQL) !== false) {
-            echo "Years data inserted successfully<br>";
+            echo "<p>Years data inserted successfully</p>";
         } else {
             $errorInfo = $conn->errorInfo();
-            echo "Error inserting years data: " . implode(", ", $errorInfo) . "<br>";
+            echo "<p>Error inserting years data: " . implode(", ", $errorInfo) . "</p>";
         }
     }
-
 
     // SQL query to create the 'income' table with foreign key constraints
     $createIncomeTableSQL = "CREATE TABLE IF NOT EXISTS income (
@@ -179,13 +177,12 @@ try {
 
     // Execute the query
     if ($conn->exec($createIncomeTableSQL) !== false) {
-        echo "Table 'income' created successfully<br>";
+        echo "<p>Table 'income' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'income' table: " . implode(", ", $errorInfo);
+        echo "<p>Error creating 'income' table: " . implode(", ", $errorInfo) . "</p>";
     }
 
-    
     // SQL query to create the 'source' table
     $createExpenseSourceTableSQL = "CREATE TABLE IF NOT EXISTS expensesource (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -194,12 +191,12 @@ try {
 
     // Execute the query
     if ($conn->exec($createExpenseSourceTableSQL) !== false) {
-        echo "Table 'expensesource' created successfully<br>";
+        echo "<p>Table 'expensesource' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'expensesource' table: " . implode(", ", $errorInfo) . "<br>";
+        echo "<p>Error creating 'expensesource' table: " . implode(", ", $errorInfo) . "</p>";
     }
-    
+
     // SQL query to create the 'source' table
     $createExpenseCategoryTableSQL = "CREATE TABLE IF NOT EXISTS expensecategory (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -208,10 +205,24 @@ try {
 
     // Execute the query
     if ($conn->exec($createExpenseCategoryTableSQL) !== false) {
-        echo "Table 'expensecategory' created successfully<br>";
+        echo "<p>Table 'expensecategory' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'expensecategory' table: " . implode(", ", $errorInfo) . "<br>";
+        echo "<p>Error creating 'expensecategory' table: " . implode(", ", $errorInfo) . "</p>";
+    }
+    
+    // SQL query to create the 'store' table
+    $createStoreTableSQL = "CREATE TABLE IF NOT EXISTS store (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        store_name VARCHAR(255) NOT NULL
+    )";
+
+    // Execute the query
+    if ($conn->exec($createStoreTableSQL) !== false) {
+        echo "<p>Table 'store' created successfully</p>";
+    } else {
+        $errorInfo = $conn->errorInfo();
+        echo "<p>Error creating 'store' table: " . implode(", ", $errorInfo) . "</p>";
     }
 
     // SQL query to create the 'expense' table with foreign key constraints
@@ -224,25 +235,26 @@ try {
         year_id INT,
         expensesource_id INT,
         expensecategory_id INT,
+        store_id INT,
         FOREIGN KEY (day_id) REFERENCES days(id),
         FOREIGN KEY (month_id) REFERENCES months(id),
         FOREIGN KEY (date_id) REFERENCES dates(id),
         FOREIGN KEY (year_id) REFERENCES years(id),
         FOREIGN KEY (expensesource_id) REFERENCES expensesource(id),
-        FOREIGN KEY (expensecategory_id) REFERENCES expensecategory(id)
+        FOREIGN KEY (expensecategory_id) REFERENCES expensecategory(id),
+        FOREIGN KEY (store_id) REFERENCES store(id)
     )";
 
     // Execute the query
     if ($conn->exec($createExpenseTableSQL) !== false) {
-        echo "Table 'expense' created successfully<br>";
+        echo "<p>Table 'expense' created successfully</p>";
     } else {
         $errorInfo = $conn->errorInfo();
-        echo "Error creating 'expense' table: " . implode(", ", $errorInfo);
+        echo "<p>Error creating 'expense' table: " . implode(", ", $errorInfo) . "</p>";
     }
 
-
 } catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    echo "<p>Connection failed: " . $e->getMessage() . "</p>";
 }
 
 // Close the connection

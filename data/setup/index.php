@@ -1,5 +1,6 @@
 <?php
 require '../components/db.php';
+echo "<h2>Database setup complete, redirecting.</h2>"
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +12,7 @@ require '../components/db.php';
     <script>
         setTimeout(function() {
             window.location.href = "/";
-        }, 1000000); // 5000 milliseconds = 5 seconds
+        }, 21000); // 5000 milliseconds = 5 seconds
     </script>
 </head>
 </html>
@@ -24,11 +25,15 @@ require '../components/db.php';
         padding: 30px;
         font-family: quicksand;
     }
-    ::after{
-        content: 'asdasd';
+    p::after{
+        margin-top: 20px;
+        content: '';
         display: block;
-        height: 100px; 
-        width: 100px;
-        background: red;
+        height: 2px; 
+        width: 100%;
+        background: black;
+    }
+    p:last-child::after{
+        content: none;
     }
 </style>

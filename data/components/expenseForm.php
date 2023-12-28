@@ -13,6 +13,8 @@ $sqldate = "SELECT id, id FROM dates";
 $date = $conn->query($sqldate);
 $sqlmonth = "SELECT id, month_name FROM months";
 $month = $conn->query($sqlmonth);
+$sqlstore = "SELECT id, store_name FROM store";
+$store = $conn->query($sqlstore);
 $sqlyear = "SELECT id, id FROM years";
 $year = $conn->query($sqlyear);
 
@@ -49,8 +51,18 @@ $conn->close();
                 ?>
             </select>
         </div>
+        <div class="dataDetails" style="grid-column: 1 / 3;">
+            <label for=""><p>Store</p><img onclick="registerStore(), registerExpense()" src="/img/pluss.png" alt=""></label>
+            <select name="txtStore_id" id="txtStore_id" require>
+                <option value="">Unknown</option>
+                <?php while ($rowStore = mysqli_fetch_array($store)) {
+                    echo "<option value='{$rowStore["id"]}'>{$rowStore["store_name"]}</option>";
+                }
+                ?>
+            </select>
+        </div>
         <div class="dataDetails">
-            <label for=""><p>Year</p><img onclick="registerYear(), registerExpense();" src="/img/pluss.png" alt=""></label>
+            <label for=""><p>Year</p><img onclick="registerYear(), registerExpense()" src="/img/pluss.png" alt=""></label>
             <select name="txtYear_id" id="txtYear_id" require>
                 <?php while ($rowYear = mysqli_fetch_array($year)) {
                     echo "<option value='{$rowYear["id"]}'>{$rowYear["id"]}</option>";
@@ -91,6 +103,7 @@ $conn->close();
     </form>
 </div>
 
+<!-- expense category -->
 <div class="floatingForm" id="registerExpenseCategory">
     <form action="/prosess/expenseCategory.php" method="post" class="data">
         <span>
@@ -105,6 +118,7 @@ $conn->close();
     </form>
 </div>
 
+<!-- expense source -->
 <div class="floatingForm" id="registerExpenseSource">
     <form action="/prosess/expenseSource.php" method="post" class="data">
         <span>
@@ -119,6 +133,22 @@ $conn->close();
     </form>
 </div>
 
+<!-- Store -->
+<div class="floatingForm" id="registerStore">
+    <form action="/prosess/registerStore.php" method="post" class="data">
+        <span>
+            <h2>Add Store</h2>
+            <img src="/img/pluss.png" alt="" onclick="registerStore()">
+        </span>
+        <div class="dataDetails" style="grid-column: 1 / 3;">
+            <label for="store"><p>Store Name</p></label>
+            <input type="text" id="store" name="store">
+        </div>
+        <button type="submit" name="submit">Submit</button>
+    </form>
+</div>
+
+<!-- Year -->
 <div class="floatingForm" id="registerYear">
     <form action="/prosess/registerYear.php" method="post" class="data">
         <span>
@@ -141,6 +171,9 @@ $conn->close();
         display: none; /* Initially hidden */
     }
     #registerExpenseSource {
+        display: none; /* Initially hidden */
+    }
+    #registerStore {
         display: none; /* Initially hidden */
     }
     #registerYear {
@@ -173,6 +206,17 @@ $conn->close();
 
     function registerExpenseSource() {
         var element = document.getElementById("registerExpenseSource");
+
+        // Toggle between display block and none
+        if (element.style.display === "flex") {
+            element.style.display = "none";
+        } else {
+            element.style.display = "flex";
+        }
+    }
+
+    function registerStore() {
+        var element = document.getElementById("registerStore");
 
         // Toggle between display block and none
         if (element.style.display === "flex") {
