@@ -1,6 +1,5 @@
 <?php
 require '../components/db.php';
-echo "<h2>Database setup complete, redirecting.</h2>"
 ?>
 
 <!DOCTYPE html>
@@ -9,11 +8,6 @@ echo "<h2>Database setup complete, redirecting.</h2>"
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Setup</title>
-    <script>
-        setTimeout(function() {
-            window.location.href = "/";
-        }, 21000); // 5000 milliseconds = 5 seconds
-    </script>
 </head>
 </html>
 <style>

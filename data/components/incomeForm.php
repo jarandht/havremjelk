@@ -16,19 +16,20 @@ $month = $conn->query($sqlmonth);
 $sqlyear = "SELECT id, id FROM years";
 $year = $conn->query($sqlyear);
 
+
 $conn->close();
 
 ?>
 <!-- income form -->
 <div class="floatingForm" id="incomeForm">
     <form class="data" method="post" action="/prosess/income.php" onsubmit="registerIncome(event)">
-        <span>
-            <h2>register income</h2>
+        <span style="grid-column: 1 / 3">
+            <h2>income</h2>
             <img src="/img/pluss.png" alt="" onclick="registerIncome()"*>
         </span>
         <div class="dataDetails" style="grid-column: 1 /3">
             <label for=""><p>Amount</p></label>
-            <input type="number" name="txtAmount" id="txtAmount" require />
+            <input type="text" name="txtAmount" id="txtAmount" require />
         </div>
         <div class="dataDetails" style="grid-column: 1 /3">
             <label for=""><p>Category</p><img onclick="registerIncomeCategory(); registerIncome();" src="/img/pluss.png" alt=""></label>

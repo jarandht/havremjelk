@@ -1,6 +1,8 @@
 <?php
 require 'creds.php';
 
+$setupSuccess = true;
+
 try {
     // Create a connection
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
@@ -203,6 +205,37 @@ try {
         expensecategory_name VARCHAR(255) NOT NULL
     )";
 
+    // SQL query to create the 'volumeTypes' table
+    $createVolumeTypesTableSQL = "CREATE TABLE IF NOT EXISTS volumeTypes (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        volumeType_name VARCHAR(255) NOT NULL
+    )";
+
+    // Execute the query
+    if ($conn->exec($createVolumeTypesTableSQL) !== false) {
+        echo "<p>Table 'volumeTypes' created successfully</p>";
+        
+        // Now, let's insert common metric volume types
+        $insertVolumeTypesSQL = "INSERT INTO volumeTypes (volumeType_name) VALUES 
+            ('L'),
+            ('DL'),
+            ('KG'),
+            ('G')";
+        
+        // Execute the insert query
+        if ($conn->exec($insertVolumeTypesSQL) !== false) {
+            echo "<p>Common metric volume types inserted successfully</p>";
+        } else {
+            $setupSuccess = false;
+            $errorInfo = $conn->errorInfo();
+            echo "<p>Error inserting common metric volume types: " . implode(", ", $errorInfo) . "</p>";
+        }
+    } else {
+        $setupSuccess = false;
+        $errorInfo = $conn->errorInfo();
+        echo "<p>Error creating 'volumeTypes' table: " . implode(", ", $errorInfo) . "</p>";
+    }
+
     // Execute the query
     if ($conn->exec($createExpenseCategoryTableSQL) !== false) {
         echo "<p>Table 'expensecategory' created successfully</p>";
@@ -229,10 +262,12 @@ try {
     $createExpenseTableSQL = "CREATE TABLE IF NOT EXISTS expense (
         expense_id INT AUTO_INCREMENT PRIMARY KEY,
         chost VARCHAR(255) NOT NULL,
+        volume VARCHAR(255) NOT NULL,
         day_id INT,
         month_id INT,
         date_id INT,
         year_id INT,
+        volumeTypes_id INT,
         expensesource_id INT,
         expensecategory_id INT,
         store_id INT,
@@ -240,6 +275,7 @@ try {
         FOREIGN KEY (month_id) REFERENCES months(id),
         FOREIGN KEY (date_id) REFERENCES dates(id),
         FOREIGN KEY (year_id) REFERENCES years(id),
+        FOREIGN KEY (volumeTypes_id) REFERENCES volumeTypes(id),
         FOREIGN KEY (expensesource_id) REFERENCES expensesource(id),
         FOREIGN KEY (expensecategory_id) REFERENCES expensecategory(id),
         FOREIGN KEY (store_id) REFERENCES store(id)
@@ -254,9 +290,18 @@ try {
     }
 
 } catch (PDOException $e) {
+    $setupSuccess = false;
     echo "<p>Connection failed: " . $e->getMessage() . "</p>";
 }
 
 // Close the connection
 $conn = null;
+
+// Check if there were no errors during setup
+if ($setupSuccess) {
+    echo '<h2>Database setup complete, redirecting.</h2><script src="../setup/redirect.js"></script>';
+    // Add code for redirection here if needed
+} else {
+    echo "<p>Some error occurred during database setup.</p>";
+}
 ?>

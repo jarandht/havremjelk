@@ -37,7 +37,7 @@ require 'listComponents/listTop.php';
 <table>
     <thead>
         <tr class="tableTH">
-            <th>Year Name</th>
+            <th class="listSortUp">Year Name</th>
             <th></th>
             <th></th>
         </tr>

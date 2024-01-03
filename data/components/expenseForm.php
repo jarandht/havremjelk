@@ -5,17 +5,26 @@ $conn = new mysqli($servername, $username, $password, $database);
 
 $sqlexpensecategory = "SELECT id, expensecategory_name FROM expensecategory";
 $expensecategory = $conn->query($sqlexpensecategory);
+
 $sqlexpensesource = "SELECT id, expensesource_name FROM expensesource";
 $expensesource = $conn->query($sqlexpensesource);
+
+$sqlexpensevolumeTypes = "SELECT id, volumeType_name FROM volumeTypes";
+$expensevolumeTypes = $conn->query($sqlexpensevolumeTypes);
+
 $sqlday = "SELECT id, day_name FROM days";
 $day = $conn->query($sqlday);
-$sqldate = "SELECT id, id FROM dates";
+
+$sqldate = "SELECT id FROM dates";
 $date = $conn->query($sqldate);
+
 $sqlmonth = "SELECT id, month_name FROM months";
 $month = $conn->query($sqlmonth);
+
 $sqlstore = "SELECT id, store_name FROM store";
 $store = $conn->query($sqlstore);
-$sqlyear = "SELECT id, id FROM years";
+
+$sqlyear = "SELECT id, id FROM years ORDER BY id DESC";
 $year = $conn->query($sqlyear);
 
 $conn->close();
@@ -24,15 +33,15 @@ $conn->close();
 <!-- expense form -->
 <div class="floatingForm" id="expenseForm">
     <form class="data" method="post" action="/prosess/expense.php" onsubmit="registerExpense(event)">
-        <span>
-            <h2>register expense</h2>
+        <span style="grid-column: 1 / 3">
+            <h2>expense</h2>
             <img src="/img/pluss.png" alt="" onclick="registerExpense()">
         </span>
-        <div class="dataDetails" style="grid-column: 1 /3">
-            <label for=""><p>Cost</p></label>
-            <input type="number" name="txtChost" id="txtChost" require />
+        <div class="dataDetails" style="grid-column: 1 / 3">
+            <label for="txtChost"><p>Cost</p></label>
+            <input type="number" name="txtChost" id="txtChost" step="any" required />
         </div>
-        <div class="dataDetails" style="grid-column: 1 /3">
+        <div class="dataDetails" style="grid-column: 1 / 3">
             <label for=""><p>Category</p><img onclick="registerExpenseCategory(); registerExpense();" src="/img/pluss.png" alt=""></label>
             <select name="txtExpensecategory_id" id="txtExpensecategory_id" require>
                 <?php while ($rowExpensecategory = mysqli_fetch_array($expensecategory)) {
@@ -41,7 +50,7 @@ $conn->close();
                 ?>
             </select>
         </div>
-        <div class="dataDetails" style="grid-column: 1 /3">
+        <div class="dataDetails" style="grid-column: 1 / 3">
             <label for=""><p>Source</p><img onclick="registerExpenseSource(), registerExpense()" src="/img/pluss.png" alt=""></label>
             <select name="txtExpensesource_id" id="txtExpensesource_id">
                 <option value="">Unknown</option>
@@ -51,7 +60,21 @@ $conn->close();
                 ?>
             </select>
         </div>
-        <div class="dataDetails" style="grid-column: 1 / 3;">
+        <div class="dataDetails" style="grid-column: 1 / 2">
+            <label for="txtVolume"><p>Volume</p></label>
+            <input type="number" name="txtVolume" id="txtVolume" step="any" required />
+        </div>
+        <div class="dataDetails" style="grid-column: 2 / 3">
+            <label for=""><p>Type</p></label>
+            <select name="txtExpensevolumeTypes_id" id="txtExpensevolumeTypes_id">
+                <option value="">Unknown</option>
+                <?php while ($rowExpenvolumeTypes = mysqli_fetch_array($expensevolumeTypes)) {
+                    echo "<option value='{$rowExpenvolumeTypes["id"]}'>{$rowExpenvolumeTypes["volumeType_name"]}</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="dataDetails" style="grid-column: 1 / 3">
             <label for=""><p>Store</p><img onclick="registerStore(), registerExpense()" src="/img/pluss.png" alt=""></label>
             <select name="txtStore_id" id="txtStore_id" require>
                 <option value="">Unknown</option>

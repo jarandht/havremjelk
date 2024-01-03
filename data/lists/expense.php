@@ -4,20 +4,20 @@ require '../components/creds.php';
 $conn = new mysqli($servername, $username, $password, $database);
 
 // Fetch expense data
-$sqlExpenseData = "SELECT expense_id, chost, expensesource_id, expensecategory_id, day_id, date_id, month_id, year_id, store_id FROM expense";
+$sqlExpenseData = "SELECT expense_id, chost, expensesource_id, expensecategory_id, day_id, date_id, month_id, year_id, store_id, volume, volumeTypes_id FROM expense";
 $expenseDataResult = $conn->query($sqlExpenseData);
 
 // Check if the query was successful
-if ($expenseDataResult) {
+if ($expenseDataResult === FALSE) {
+    // Handle the error, e.g., by echoing the error message
+    echo "Error: " . $conn->error;
+    // You might want to log the error or handle it differently based on your requirements
+} else {
     // Fetch all rows and store them in $expenseData
     $expenseData = $expenseDataResult->fetch_all(MYSQLI_ASSOC);
 
     // Free the result set
     $expenseDataResult->free();
-} else {
-    // Handle the error, e.g., by echoing the error message
-    echo "Error: " . $conn->error;
-    // You might want to log the error or handle it differently based on your requirements
 }
 
 // Fetch source data
@@ -26,6 +26,14 @@ $expenseSourceResult = $conn->query($sqlExpenseSource);
 $expenseSource = array();
 while ($row = $expenseSourceResult->fetch_assoc()) {
     $expenseSource[$row['id']] = $row['expensesource_name'];
+}
+
+// Fetch volumeTypes data
+$sqlVolumeTypes = "SELECT id, volumeType_name FROM volumeTypes";
+$volumeTypesResult = $conn->query($sqlVolumeTypes);
+$volumeTypes = array();
+while ($row = $volumeTypesResult->fetch_assoc()) {
+    $volumeTypes[$row['id']] = $row['volumeType_name'];
 }
 
 // Fetch expensecategory data
@@ -91,10 +99,11 @@ if (isset($_GET["deleteExpense"])) {
 <table>
     <thead>
         <tr class="tableTH">
-            <th>Cost</th>
+            <th class="listSortUp">Cost</th>
             <th>Source</th>
-            <th>Category</th>
+            <th>Volume</th>
             <th>Store</th>
+            <th>Category</th>
             <th>Day</th>
             <th>Date</th>
             <th>Month</th>
@@ -108,11 +117,20 @@ if (isset($_GET["deleteExpense"])) {
             <tr class="tableTD">
                 <td><?php echo $row["chost"]; ?>kr</td>
                 <td><?php echo isset($expenseSource[$row["expensesource_id"]]) ? $expenseSource[$row["expensesource_id"]] : ''; ?></td>
-                <td><?php echo isset($expenseCategory[$row["expensecategory_id"]]) ? $expenseCategory[$row["expensecategory_id"]] : ''; ?></td>
+                <td>
+                    <?php 
+                        echo isset($row["volume"]) ? $row["volume"] : ''; 
+                        echo ' ';
+                        echo isset($row["volumeTypes_id"]) ? $volumeTypes[$row["volumeTypes_id"]] : '';
+                        ?>
+                </td>           
                 <td><?php echo isset($stores[$row["store_id"]]) ? $stores[$row["store_id"]] : ''; ?></td>
+                <td><?php echo isset($expenseCategory[$row["expensecategory_id"]]) ? $expenseCategory[$row["expensecategory_id"]] : ''; ?></td>
                 <td><?php echo isset($days[$row["day_id"]]) ? $days[$row["day_id"]] : ''; ?></td>
                 <td><?php echo isset($dates[$row["date_id"]]) ? $dates[$row["date_id"]] : ''; ?></td>
-                <td><?php echo isset($months[$row["month_id"]]) ? $months[$row["month_id"]] : ''; ?></td>
+                <td data-month-id="<?php echo $row["month_id"]; ?>">
+                    <?php echo isset($months[$row["month_id"]]) ? $months[$row["month_id"]] : ''; ?>
+                </td>                
                 <td><?php echo isset($years[$row["year_id"]]) ? $years[$row["year_id"]] : ''; ?></td>
                 <td><a class="listedit" href="?deleteExpense=<?php echo $row["expense_id"]; ?>"></a></td>
                 <td><a class="listdelete" href="?deleteExpense=<?php echo $row["expense_id"]; ?>"></a></td>
@@ -120,4 +138,5 @@ if (isset($_GET["deleteExpense"])) {
         <?php } ?>
     </tbody>
 </table>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <?php require 'listComponents/listBtm.php'; ?>

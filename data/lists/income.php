@@ -83,7 +83,7 @@ if (isset($_GET["deleteIncome"])) {
 <table>
     <thead>
         <tr class="tableTH">
-            <th>Amount</th>
+            <th class="listSortUp">Amount</th>
             <th>Source</th>
             <th>Category</th>
             <th>Day</th>

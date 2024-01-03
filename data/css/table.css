@@ -1,10 +1,9 @@
 .yearOverviewTable{
     border-spacing: 2px;
     overflow: hidden;
-    /* outline: 2px solid var(--dark10); */
     background-color: var(--dark10);
     outline-offset: -1px;
-    padding: 1px;
+    margin-inline: auto;
 }
 .yearOverviewTable :is(td, th){
     padding: 10px;

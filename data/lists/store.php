@@ -37,7 +37,7 @@ if (isset($_GET["deleteStore"])) {
 <table>
     <thead>
         <tr class="tableTH">
-            <th>Store Name</th>
+            <th class="listSortUp">Store Name</th>
             <th></th>
             <th></th>
         </tr>
