@@ -1,3 +1,12 @@
+<?php
+require "expenseFormDataImport.php";
+require 'expenseForm.php';
+require 'incomeFormDataImport.php';
+require 'incomeForm.php';
+require 'SmalForms.php';
+?>
+
+
 <nav>
     <a href="/">
         <div>
@@ -11,11 +20,11 @@
             <p>Table</p>
         </div>
     </a>
-    <div onclick="registerIncome()"*>
+    <div onclick="registerIncome()">
         <img src="/img/pluss.png" alt="">
         <p>Income</p>
     </div>
-    <div onclick="registerExpense()"*>
+    <div onclick="registerExpense()">
         <img src="/img/pluss.png" alt="">
         <p>Expense</p>
     </div>
@@ -32,9 +41,5 @@
         </div>
     </a>
 </nav>
-<?php
-require 'incomeForm.php';
-?>
-<?php
-require 'expenseForm.php';
-?>
+
+<script src="/nav/formJS.js"></script>

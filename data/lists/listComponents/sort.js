@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     function sortTable(columnIndex) {
         var table, rows, switching, i, x, y, shouldSwitch;
         table = document.querySelector("table");
@@ -6,6 +6,9 @@ $(document).ready(function() {
 
         // Get the current sort direction from the th attribute
         var sortDirection = $(table).find("th").eq(columnIndex).attr("data-sort") || "asc";
+
+        // Remove the "listSortUp" and "listSortDown" classes from all th elements
+        $(table).find("th").removeClass("listSortUp listSortDown");
 
         while (switching) {
             switching = false;
@@ -17,7 +20,7 @@ $(document).ready(function() {
                 y = rows[i + 1].getElementsByTagName("td")[columnIndex];
 
                 // Compare values based on the sort direction
-                if (columnIndex === 6) { // For the "Month" column (assuming it's the 7th column, change as needed)
+                if (columnIndex === 6) {
                     var xId = parseInt(x.getAttribute("data-month-id")) || 0;
                     var yId = parseInt(y.getAttribute("data-month-id")) || 0;
 
@@ -41,10 +44,20 @@ $(document).ready(function() {
 
         // Toggle the sort direction for the next click
         sortDirection = sortDirection === "asc" ? "desc" : "asc";
+
+        // Add the appropriate class to the currently sorted th element
+        if (sortDirection === "asc") {
+            $(table).find("th").eq(columnIndex).addClass("listSortUp");
+        } else {
+            $(table).find("th").eq(columnIndex).addClass("listSortDown");
+        }
+
+        // Update the data-sort attribute for all th elements
+        $(table).find("th").attr("data-sort", "default");
         $(table).find("th").eq(columnIndex).attr("data-sort", sortDirection);
     }
 
-    $("th").click(function() {
+    $("th").click(function () {
         var index = $(this).index();
         sortTable(index);
     });

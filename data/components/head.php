@@ -11,4 +11,5 @@
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/lists.css">
     <link rel="stylesheet" href="/css/table.css">
+    <link rel="stylesheet" href="/css/switch.css">
 </head>

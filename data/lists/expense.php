@@ -4,7 +4,7 @@ require '../components/creds.php';
 $conn = new mysqli($servername, $username, $password, $database);
 
 // Fetch expense data
-$sqlExpenseData = "SELECT expense_id, chost, expensesource_id, expensecategory_id, day_id, date_id, month_id, year_id, store_id, volume, volumeTypes_id FROM expense";
+$sqlExpenseData = "SELECT expense_id, chost, discount, expensesource_id, expensecategory_id, day_id, date_id, month_id, year_id, store_id, volume, volumeTypes_id FROM expense";
 $expenseDataResult = $conn->query($sqlExpenseData);
 
 // Check if the query was successful
@@ -101,6 +101,7 @@ if (isset($_GET["deleteExpense"])) {
         <tr class="tableTH">
             <th class="listSortUp">Cost</th>
             <th>Source</th>
+            <th>Discount</th>
             <th>Volume</th>
             <th>Store</th>
             <th>Category</th>
@@ -117,6 +118,7 @@ if (isset($_GET["deleteExpense"])) {
             <tr class="tableTD">
                 <td><?php echo $row["chost"]; ?>kr</td>
                 <td><?php echo isset($expenseSource[$row["expensesource_id"]]) ? $expenseSource[$row["expensesource_id"]] : ''; ?></td>
+                <td><?php echo $row["discount"]; ?></td>
                 <td>
                     <?php 
                         echo isset($row["volume"]) ? $row["volume"] : ''; 

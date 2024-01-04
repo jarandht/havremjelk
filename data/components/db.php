@@ -262,7 +262,8 @@ try {
     $createExpenseTableSQL = "CREATE TABLE IF NOT EXISTS expense (
         expense_id INT AUTO_INCREMENT PRIMARY KEY,
         chost VARCHAR(255) NOT NULL,
-        volume VARCHAR(255) NOT NULL,
+        volume VARCHAR(255),
+        discount VARCHAR(255),
         day_id INT,
         month_id INT,
         date_id INT,

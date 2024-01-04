@@ -1,13 +1,10 @@
 <?php
 require 'components/head.php';
-
 ?>
-
 <body>
-
 <main>
     <?php
-    require 'components/nav.php';
+    require 'nav/nav.php';
     ?>
     <section class="home">
         <h1>Home</h1>

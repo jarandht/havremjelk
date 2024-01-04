@@ -7,7 +7,7 @@
     <body>
 
     <main>
-        <?php require '../components/nav.php'; ?>
+        <?php require '../nav/nav.php'; ?>
         <section class="home">
             <h1>Lists</h1>
             <section class="listContent">
