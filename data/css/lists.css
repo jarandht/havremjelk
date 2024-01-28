@@ -1,59 +1,69 @@
-.listContent{
+.list{
     display: grid;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
+    grid-template-columns: 200px 1fr;
+    height: 100%;
+    background-color: var(--dark20);
 }
-.listContent div{
+.listContent{
+    height: 100%;
     display: grid;
-    justify-content: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: max-content 1fr;
 }
 .listNavigation{
     position: sticky;
-    top: 0px;
-    width: 100%;
-    background-color: var(--dark30);
-    padding: 10px 0px;
-    display: grid;
-    justify-content: center;
-    gap: 7px;
+    top: 60px;
     z-index: 100;
-}
-.listSources{
-    display: flex !important;
-    gap: 7px;
-    flex-wrap: wrap;
-}
-.listSources div{
+    width: 1fr;
     padding: 10px;
-    font-size: 20px;
-    height: min-content;
     background-color: var(--dark20);
+    border-bottom: 4px solid var(--dark10);
+}
+.listNavigationDeff{
+    display: grid;
+    grid-template-columns: max-content 1fr repeat(2, max-content);
+    gap: 10px;
+}
+.listNavigationOnSelect{
+    display: none;
+    gap: 10px;
+}
+.listNavigation button{
+    background-color: var(--dark30);
     text-align: center;
-    padding: 10px;
-    border-radius: 3px;
-    outline: 2px solid var(--dark10);
+    padding: 10px 15px;
+    border: none;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+}
+.listNavigation button img{
+    height: 20px;
+    width: 20px;
+    filter: brightness(11);
+}
+.listNavigation button:hover{
+    background-color: var(--blue10);
+    cursor: pointer;
 }
 .listSearch{
-    height: 40px;
     display: grid;
     align-items: center;
     grid-template-columns: max-content 1fr;
     width: 1fr;
-    border-radius: 5px;
-    padding: 10px 15px;
     gap: 10px;
-    background-color: var(--dark20);
+    background-color: var(--dark30);
     text-align: center;
-    padding: 10px;
-    outline: 2px solid var(--dark10);
+    padding: 10px 10px;
+    border-radius: 5px;
 }
 .listSearch input{
     background-color: inherit;
     font-size: 20px;
     height: max-content;
     border: none;
-    height: 100%;
 }
 .listSearch input::placeholder{
     color: var(--light10);
@@ -72,10 +82,15 @@
     filter: opacity(.5);
     z-index: 1;
 }
+.listContent .listTable table{
+    width: 100%;
+    overflow: hidden;
+    border-collapse: collapse;
+    background-color: var(--dark30);
+}
 :is(.tableTH th, .tableTD td){
-    text-align: center;
     padding: 10px;
-    outline: 1px solid var(--dark10);
+    text-align: left;
 }
 .tableTH th{
     font-size: 20px;
@@ -85,43 +100,27 @@
 .tableTH th:hover{
     cursor: pointer;
 }
+.tableTD{
+    border-bottom: 1px solid var(--dark30);
+}
 .tableTD td{
-    font-size: 18px;
     background-color: var(--dark20);
-    padding: 15px;
+    font-size: 18px;
 }
-.tableTD .listdelete::after{
-    content: '';
-    display: block;
-    height: 20px;
-    width: 20px;
-    background-image: url(../img/bin.png);
-    background-size: cover;
-    filter: brightness(1);
-}
-.tableTD .listdelete:hover{
-    background-color: red;
-}
-.tableTD .listedit::after{
-    content: '';
-    display: block;
-    height: 20px;
-    width: 20px;
-    background-image: url(../img/pen.png);
-    background-size: cover;
-    filter: brightness(1);
-}
-.listsSelected div{
-    background-color: var(--blue10);
+.tableTD:hover td{
+    background-color: var(--dark30);
+    cursor: pointer;
 }
 :is(.listSortUp, .listSortDown)::after{
     content: '';
+    z-index: 10;
     display: inline-block;
     height: 20px;
-    width: 20px;
+    width: 15px;
     background-size: contain;
     margin: 0px 0 -2px 10px ;
-    background-image: url(../img/arrow.png);
+    background-image: url(../img/arrow-down.png);
+    background-repeat: no-repeat;
 }
 .listSortUp::after{
     rotate: 180deg;

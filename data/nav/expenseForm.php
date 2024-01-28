@@ -58,7 +58,7 @@
                 ?>
             </select>
         </div>
-        <div class="dataDetails" style="grid-column: 1 / 5">
+        <div class="dataDetails" style="grid-column: 1 / 5" id="dataAddAdvanced">
             <label for=""><p>Store</p><img onclick="registerStore(), registerExpense()" src="/img/pluss.png" alt=""></label>
             <select name="txtStore_id" id="txtStore_id">
                 <option value="">Unknown</option>

@@ -146,7 +146,6 @@ $conn->close();
     <main>
         <?php require '../nav/nav.php'; ?>
         <section class="home">
-            <h1>Table</h1>
             <section class="content">
                 <form id="yearForm" method="post">
                     <table class="yearOverviewTable">

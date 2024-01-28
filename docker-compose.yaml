@@ -47,6 +47,11 @@ services:
       - ./data:/var/www/html/
     networks:
       - db_network
+    environment:
+      - DB_HOST=db
+      - DB_USER=php
+      - DB_PASS=php
+      - DB_NAME=php
 networks: 
   db_network:
 volumes: 

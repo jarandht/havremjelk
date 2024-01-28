@@ -4,7 +4,7 @@ require '../components/creds.php';
 $conn = new mysqli($servername, $username, $password, $database);
 
 // Fetch expense data
-$sqlExpenseData = "SELECT expense_id, chost, discount, expensesource_id, expensecategory_id, day_id, date_id, month_id, year_id, store_id, volume, volumeTypes_id FROM expense";
+$sqlExpenseData = "SELECT expense_id, chost, discount, expensesource_id, expensecategory_id, day_id, date_id, month_id, year_id, store_id, volume, volumeTypes_id FROM expense ORDER BY expense_id DESC";
 $expenseDataResult = $conn->query($sqlExpenseData);
 
 // Check if the query was successful
@@ -85,21 +85,28 @@ while ($row = $storeResult->fetch_assoc()) {
 }
 
 // Delete expense
-if (isset($_GET["deleteExpense"])) {
-    $expenseid = $conn->real_escape_string($_GET["deleteExpense"]);
-    $conn->query("DELETE FROM expense WHERE expense_id = '$expenseid'");
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteExpense"])) {
+    $expenseIds = explode(",", $_GET["deleteExpense"]);
+    $expenseIds = array_map('intval', $expenseIds);
+    $expenseIds = implode(",", $expenseIds);
+    $conn->query("DELETE FROM expense WHERE expense_id IN ($expenseIds)");
 
     // Redirect back to the referring page
     $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
     header("Location: $referer");
     exit();
 }
+
+// Close the database connection
+$conn->close();
 ?>
+
 <?php require 'listComponents/listTop.php'; ?>
-<table>
     <thead>
         <tr class="tableTH">
-            <th class="listSortUp">Cost</th>
+            <th><span class="checkbox"><input style="background-color: var(--dark30)" type="checkbox" id="selectAllCheckbox"></span></th>
+            <th class="listSortUp">#</th>
+            <th>Chost</th>
             <th>Source</th>
             <th>Discount</th>
             <th>Volume</th>
@@ -109,14 +116,15 @@ if (isset($_GET["deleteExpense"])) {
             <th>Date</th>
             <th>Month</th>
             <th>Year</th>
-            <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($expenseData as $row) { ?>
             <tr class="tableTD">
-                <td><?php echo $row["chost"]; ?>kr</td>
+                <td><span class="checkbox"><input type="checkbox" class="delete-checkbox" data-expense-id="<?php echo $row["expense_id"]; ?>"></span></td>
+                <td><?php echo $row["expense_id"]; ?></td>
+                <td class="chost-value" style="display: none;"><?php echo $row["chost"]; ?></td>
+                <td><?php echo $row["chost"] . 'kr'; ?></td>
                 <td><?php echo isset($expenseSource[$row["expensesource_id"]]) ? $expenseSource[$row["expensesource_id"]] : ''; ?></td>
                 <td><?php echo $row["discount"]; ?></td>
                 <td>
@@ -124,7 +132,7 @@ if (isset($_GET["deleteExpense"])) {
                         echo isset($row["volume"]) ? $row["volume"] : ''; 
                         echo ' ';
                         echo isset($row["volumeTypes_id"]) ? $volumeTypes[$row["volumeTypes_id"]] : '';
-                        ?>
+                    ?>
                 </td>           
                 <td><?php echo isset($stores[$row["store_id"]]) ? $stores[$row["store_id"]] : ''; ?></td>
                 <td><?php echo isset($expenseCategory[$row["expensecategory_id"]]) ? $expenseCategory[$row["expensecategory_id"]] : ''; ?></td>
@@ -134,11 +142,55 @@ if (isset($_GET["deleteExpense"])) {
                     <?php echo isset($months[$row["month_id"]]) ? $months[$row["month_id"]] : ''; ?>
                 </td>                
                 <td><?php echo isset($years[$row["year_id"]]) ? $years[$row["year_id"]] : ''; ?></td>
-                <td><a class="listedit" href="?deleteExpense=<?php echo $row["expense_id"]; ?>"></a></td>
-                <td><a class="listdelete" href="?deleteExpense=<?php echo $row["expense_id"]; ?>"></a></td>
             </tr>
         <?php } ?>
     </tbody>
 </table>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#deleteSelectedButton").on("click", function () {
+            var selectedExpenses = $(".delete-checkbox:checked").map(function () {
+                return $(this).data("expense-id");
+            }).get();
+
+            if (selectedExpenses.length > 0) {
+                var confirmation = confirm("Are you sure you want to delete the selected expenses?");
+                if (confirmation) {
+                    window.location.href = "?deleteExpense=" + selectedExpenses.join(",");
+                }
+            } else {
+                alert("Please select at least one expense to delete.");
+            }
+        });
+
+        $("#selectAllCheckbox").on("change", function () {
+            var isChecked = $(this).prop("checked");
+            $(".delete-checkbox").prop("checked", isChecked).change();
+        });
+
+        $(".delete-checkbox").on("change", function () {
+            var anyCheckboxChecked = $(".delete-checkbox:checked").length > 0;
+
+            if (anyCheckboxChecked) {
+                $(".listNavigationDeff").css("display", "none");
+                $(".listNavigationOnSelect").css("display", "flex");
+
+                var selectedCount = $(".delete-checkbox:checked").length;
+                if (selectedCount > 1) {
+                    $("#editSelectedButton").css("display", "none");
+                } else {
+                    $("#editSelectedButton").css("display", "flex");
+                }
+            } else {
+                $(".listNavigationDeff").css("display", "grid");
+                $(".listNavigationOnSelect").css("display", "none");
+                $("#editSelectedButton").css("display", "flex");
+            }
+        });
+    });
+</script>
+
+
+
+
 <?php require 'listComponents/listBtm.php'; ?>

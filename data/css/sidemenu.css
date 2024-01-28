@@ -1,0 +1,47 @@
+.sidemenu {
+    height: calc(100vh - 80px);
+    background-color: var(--dark20);
+    padding: 10px;
+    position: sticky;
+    top: 60px;
+    z-index: 100;
+    border-right: 4px solid var(--dark10);
+}
+.sidemenu div{
+    color: var(--light10);
+    font-size: 20px;
+    padding: 3px 0px 3px 8px;
+    margin: 8px 0 0 10px;
+    border-radius: 3px;
+    transition: .2s;
+    display: flex;
+    align-items: center;
+}
+.sidemenu div:hover{
+    background-color: var(--dark30);
+}
+.sidemenudevider:first-child{
+    margin-top: 0px;
+}
+.sidemenudevider{
+    margin-top:30px;
+    padding: 3px;
+    font-size: 20px;
+    color: var(--blue10);
+    border-bottom: 1px solid var(--blue10);
+    font-weight: 900;
+}
+.sidemenu .sidemenuItemSelected{
+    color: var(--light00);
+}
+.sidemenu .sidemenuItemSelected::before{
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 20px;    
+    padding: 7px 0;
+    border-radius: 5px;
+    background-color: var(--blue10) !important;
+    position: absolute;
+    margin-left: -8px;
+}
