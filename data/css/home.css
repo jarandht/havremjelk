@@ -1,23 +1,56 @@
 .home{
     padding: 20px;
+    background-color: var(--dark20);
 }
-.home .content{
-    padding: 10px 0;
+.content{
     display: grid;
+    gap: 20px
+}
+.widgetCategory{
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 10px;
+}
+.widgetCategory h2{
+    margin: 0 0 5px 5px;
+    width: 100%;
 }
 .widgets{
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
 }
-.widgets div{
+.widget{
     width: 300px;
-    height: 100px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 4px 0 var(--dark10);
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    background-color: var(--dark30);
 }
-.widgets .widgetTitle{
-    font-size: 20px;
+.widget div{
+    margin: 5px;
+    padding: 5px;
+}
+.widgetTitle{
+    font-size: 17px;
     text-transform: capitalize;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--light10);
+}
+.widgetContent{
+    font-size: 35px;
+    font-weight: 500;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.widgetIndicator{
+    width: 0px;
+}
+#income .widgetIndicator{
+    background-color: var(--incomegreen);
+}
+#expense .widgetIndicator{
+    background-color: var(--expensered);
 }

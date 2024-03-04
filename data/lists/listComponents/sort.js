@@ -27,11 +27,11 @@ $(document).ready(function () {
 
             // Convert day and month strings to their respective IDs
             if (columnIndex === 8) { // Day column
-                x = parseInt($(a).children("td").eq(8).attr("data-day-id"));
-                y = parseInt($(b).children("td").eq(8).attr("data-day-id"));
+                x = parseInt($(a).children("td").eq(8).text());
+                y = parseInt($(b).children("td").eq(8).text());                
             } else if (columnIndex === 10) { // Month column
-                x = parseInt($(a).children("td").eq(10).attr("data-month-id"));
-                y = parseInt($(b).children("td").eq(10).attr("data-month-id"));
+                x = parseInt($(a).children("td").eq(10).text());
+                y = parseInt($(b).children("td").eq(10).text());                
             }
 
             if (sortOrder === 'asc') {

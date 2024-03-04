@@ -3,41 +3,41 @@ require '../components/creds.php';
 
 $conn = new mysqli($servername, $username, $password, $database);
 
-// Fetch incomeCategory data
+// Fetch income source data
 $sqlIncomeSourceData = "SELECT id, incomesource_name FROM incomesource";
 $incomeSourceData = $conn->query($sqlIncomeSourceData);
 
-// Delete income category
+// Delete income source
 if (isset($_GET["deleteIncomeSource"])) {
     $incomesourceid = $conn->real_escape_string($_GET["deleteIncomeSource"]);
 
-    // Attempt to delete the income category
+    // Attempt to delete the income source
     $deleteResult = $conn->query("DELETE FROM incomesource WHERE id = '$incomesourceid'");
 
     // Check if the delete query was successful
     if ($deleteResult) {
-            // Redirect back to the referring page
-            $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
-            header("Location: $referer");
-            exit();
+        // Redirect back to the referring page
+        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
+        header("Location: $referer");
+        exit();
     } else {
         // Check if the error is related to foreign key constraint
         $error = $conn->error;
         if (strpos($error, 'foreign key constraint') !== false) {
-            echo '<div class="error">Error: Category is in use </div>';
+            echo '<div class="error">Error: Source is in use</div>';
         } else {
-            echo '<div class="error">Error deleting income category: </div>' . $error;
+            echo '<div class="error">Error deleting income source: </div>' . $error;
         }
     }
 }
 ?>
-<?php
-require 'listComponents/listTop.php';
-?>
+<?php require 'listComponents/listTop.php'; ?>
 <table>
     <thead>
         <tr class="tableTH">
-            <th class="listSortUp">Source Name</th>
+            <th><span class="checkbox"><input style="background-color: var(--dark30)" type="checkbox" id="selectAllCheckbox"></span></th>
+            <th class="listSortUp">#</th>
+            <th>Source Name</th>
             <th></th>
             <th></th>
         </tr>
@@ -50,6 +50,8 @@ require 'listComponents/listTop.php';
         while ($row = $incomeSourceData->fetch_assoc()) {
         ?>
             <tr class="tableTD">
+                <td><span class="checkbox"><input type="checkbox" class="delete-checkbox" data-income-source-id="<?php echo $row["id"]; ?>"></span></td>
+                <td><?php echo $row["id"]; ?></td>
                 <td><?php echo $row["incomesource_name"]; ?></td>
                 <td><a class="listedit" href="?editIncomeSource=<?php echo $row["id"]; ?>"></a></td>
                 <td><a class="listdelete" href="?deleteIncomeSource=<?php echo $row["id"]; ?>"></a></td>
@@ -57,6 +59,47 @@ require 'listComponents/listTop.php';
         <?php } ?>
     </tbody>
 </table>
-<?php
-require 'listComponents/listBtm.php';
-?>
+<script>
+    $(document).ready(function () {
+        $("#deleteSelectedButton").on("click", function () {
+            var selectedIncomeSources = $(".delete-checkbox:checked").map(function () {
+                return $(this).data("income-source-id");
+            }).get();
+
+            if (selectedIncomeSources.length > 0) {
+                var confirmation = confirm("Are you sure you want to delete the selected income sources?");
+                if (confirmation) {
+                    window.location.href = "?deleteIncomeSource=" + selectedIncomeSources.join(",");
+                }
+            } else {
+                alert("Please select at least one income source to delete.");
+            }
+        });
+
+        $("#selectAllCheckbox").on("change", function () {
+            var isChecked = $(this).prop("checked");
+            $(".delete-checkbox").prop("checked", isChecked).change();
+        });
+
+        $(".delete-checkbox").on("change", function () {
+            var anyCheckboxChecked = $(".delete-checkbox:checked").length > 0;
+
+            if (anyCheckboxChecked) {
+                $(".listNavigationDeff").css("display", "none");
+                $(".listNavigationOnSelect").css("display", "flex");
+
+                var selectedCount = $(".delete-checkbox:checked").length;
+                if (selectedCount > 1) {
+                    $("#editSelectedButton").css("display", "none");
+                } else {
+                    $("#editSelectedButton").css("display", "flex");
+                }
+            } else {
+                $(".listNavigationDeff").css("display", "grid");
+                $(".listNavigationOnSelect").css("display", "none");
+                $("#editSelectedButton").css("display", "flex");
+            }
+        });
+    });
+</script>
+<?php require 'listComponents/listBtm.php'; ?>

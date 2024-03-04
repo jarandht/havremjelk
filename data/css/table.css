@@ -1,16 +1,21 @@
 .yearOverviewTable{
-    border-spacing: 2px;
     overflow: hidden;
-    background-color: var(--dark10);
-    outline-offset: -1px;
     margin-inline: auto;
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
 }
 .yearOverviewTable :is(td, th){
     padding: 10px;
+    outline: 1px solid var(--dark10);
+    font-size: 14px;
 }
 .yearOverviewTable :is(th){
-    background-color: var(--dark30);
+    background-color: var(--dark10);
     font-weight: 400;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .yearOverviewTable :is(td){
     background-color: var(--dark20);
@@ -39,6 +44,7 @@
 }
 .tablemonths{
     background-color: var(--blue10) !important;
+    font-size: 20px !important;
 }
 .tableincome{
     background-color: var(--incomegreen) !important;
@@ -50,7 +56,7 @@
     padding: 0 !important;
 }
 .tableAvrageSumary{
-    background-color: var(--dark30) !important;
+    background-color: var(--dark10) !important;
 }
 .tableRowSpcaer{
     background-color: var(--blue10) !important;

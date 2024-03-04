@@ -37,7 +37,9 @@ if (isset($_GET["deleteStore"])) {
 <table>
     <thead>
         <tr class="tableTH">
-            <th class="listSortUp">Store Name</th>
+            <th><span class="checkbox"><input style="background-color: var(--dark30)" type="checkbox" id="selectAllCheckbox"></span></th>
+            <th class="listSortUp">#</th>
+            <th>Store Name</th>
             <th></th>
             <th></th>
         </tr>
@@ -50,6 +52,8 @@ if (isset($_GET["deleteStore"])) {
         while ($row = $storeData->fetch_assoc()) {
         ?>
             <tr class="tableTD">
+                <td><span class="checkbox"><input type="checkbox" class="delete-checkbox" data-store-id="<?php echo $row["id"]; ?>"></span></td>
+                <td><?php echo $row["id"]; ?></td>
                 <td><?php echo $row["store_name"]; ?></td>
                 <td><a class="listedit" href="?editStore=<?php echo $row["id"]; ?>"></a></td>
                 <td><a class="listdelete" href="?deleteStore=<?php echo $row["id"]; ?>"></a></td>
@@ -57,5 +61,48 @@ if (isset($_GET["deleteStore"])) {
         <?php } ?>
     </tbody>
 </table>
+<script>
+    $(document).ready(function () {
+        $("#deleteSelectedButton").on("click", function () {
+            var selectedStores = $(".delete-checkbox:checked").map(function () {
+                return $(this).data("store-id");
+            }).get();
+
+            if (selectedStores.length > 0) {
+                var confirmation = confirm("Are you sure you want to delete the selected stores?");
+                if (confirmation) {
+                    window.location.href = "?deleteStore=" + selectedStores.join(",");
+                }
+            } else {
+                alert("Please select at least one store to delete.");
+            }
+        });
+
+        $("#selectAllCheckbox").on("change", function () {
+            var isChecked = $(this).prop("checked");
+            $(".delete-checkbox").prop("checked", isChecked).change();
+        });
+
+        $(".delete-checkbox").on("change", function () {
+            var anyCheckboxChecked = $(".delete-checkbox:checked").length > 0;
+
+            if (anyCheckboxChecked) {
+                $(".listNavigationDeff").css("display", "none");
+                $(".listNavigationOnSelect").css("display", "flex");
+
+                var selectedCount = $(".delete-checkbox:checked").length;
+                if (selectedCount > 1) {
+                    $("#editSelectedButton").css("display", "none");
+                } else {
+                    $("#editSelectedButton").css("display", "flex");
+                }
+            } else {
+                $(".listNavigationDeff").css("display", "grid");
+                $(".listNavigationOnSelect").css("display", "none");
+                $("#editSelectedButton").css("display", "flex");
+            }
+        });
+    });
+</script>
 
 <?php require 'listComponents/listBtm.php'; ?>

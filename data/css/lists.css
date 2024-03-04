@@ -28,6 +28,20 @@
     display: none;
     gap: 10px;
 }
+.listNavigation select{
+    background-color: var(--dark30);
+    text-align: center;
+    padding: 10px 15px;
+    border: none;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+}
+.listNavigation select:focus{
+    outline: none;
+}
 .listNavigation button{
     background-color: var(--dark30);
     text-align: center;
@@ -97,6 +111,17 @@
     background-color: var(--blue10);
     user-select: none;
 }
+.tableTD{
+    background-color: var(--dark20);
+    transition: .1s;
+}
+.tableTD:nth-child(even){
+    background-color: var(--dark10);
+}
+.tableTD:hover{
+    background-color: var(--dark30);
+    cursor: pointer;
+}
 .tableTH th:hover{
     cursor: pointer;
 }
@@ -104,21 +129,17 @@
     border-bottom: 1px solid var(--dark30);
 }
 .tableTD td{
-    background-color: var(--dark20);
     font-size: 18px;
 }
-.tableTD:hover td{
-    background-color: var(--dark30);
-    cursor: pointer;
-}
+
 :is(.listSortUp, .listSortDown)::after{
     content: '';
+    display: ;
     z-index: 10;
-    display: inline-block;
     height: 20px;
     width: 15px;
     background-size: contain;
-    margin: 0px 0 -2px 10px ;
+    margin: 0px 0 -2px 0px ;
     background-image: url(../img/arrow-down.png);
     background-repeat: no-repeat;
 }

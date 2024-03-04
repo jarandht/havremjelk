@@ -22,9 +22,7 @@
                 <a href="/lists/incomeCategory.php"><div <?php echo strpos($current_page, '/lists/incomeCategory.php') !== false ? 'class="sidemenuItemSelected"' : ''; ?>>Categories</div></a>
                 <a href="/lists/incomeSource.php"><div <?php echo strpos($current_page, '/lists/incomeSource.php') !== false ? 'class="sidemenuItemSelected"' : ''; ?>>Sources</div></a>
                 <p class="sidemenudevider">Other</p>
-                <a href="/lists/volumeTypes.php"><div <?php echo strpos($current_page, '/lists/volumeTypes.php') !== false ? 'class="sidemenuItemSelected"' : ''; ?>>Volume Types</div></a>
                 <a href="/lists/store.php"><div <?php echo strpos($current_page, '/lists/store.php') !== false ? 'class="sidemenuItemSelected"' : ''; ?>>Stores</div></a>
-                <a href="/lists/years.php"><div <?php echo strpos($current_page, '/lists/years.php') !== false ? 'class="sidemenuItemSelected"' : ''; ?>>Years</div></a>
             </div>
             <section class="listContent">
                 <section class="listNavigation">

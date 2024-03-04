@@ -36,9 +36,6 @@
 .navSide img{
     height: 30px;
     width: 30px;
-    /* padding: 7px;
-    border-radius: 10px; */
-    /* background-color: var(--blue10); */
 }
 .navSide .navLogo img{
     height: 45px;
@@ -56,14 +53,11 @@
     width: calc(100% - 15px);
     margin: 5px 0;
     border-radius: 10px;
-    background-color: var(--dark20);
+    background-color: var(--dark30);
     margin-inline: auto;
 }
 .navSide .navSiteSelected{
-    background-color: var(--blue10);
-}
-.navSide div:is(.navSiteSelected:hover){
-    background-color: var(--blue10) !important;
+    background-color: var(--dark20);
 }
 .navTop{
     position: sticky;

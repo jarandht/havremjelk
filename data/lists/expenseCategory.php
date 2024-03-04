@@ -31,13 +31,13 @@ if (isset($_GET["deleteExpenseCategory"])) {
     }
 }
 ?>
-<?php
-require 'listComponents/listTop.php';
-?>
+<?php require 'listComponents/listTop.php'; ?>
 <table>
     <thead>
         <tr class="tableTH">
-            <th class="listSortUp">Category Name</th>
+            <th><span class="checkbox"><input style="background-color: var(--dark30)" type="checkbox" id="selectAllCheckbox"></span></th>
+            <th class="listSortUp">#</th>
+            <th>Category Name</th>
             <th></th>
             <th></th>
         </tr>
@@ -50,6 +50,8 @@ require 'listComponents/listTop.php';
         while ($row = $expenseCategoryData->fetch_assoc()) {
         ?>
             <tr class="tableTD">
+                <td><span class="checkbox"><input type="checkbox" class="delete-checkbox" data-expense-category-id="<?php echo $row["id"]; ?>"></span></td>
+                <td><?php echo $row["id"]; ?></td>
                 <td><?php echo $row["expensecategory_name"]; ?></td>
                 <td><a class="listedit" href="?editExpenseCategory=<?php echo $row["id"]; ?>"></a></td>
                 <td><a class="listdelete" href="?deleteExpenseCategory=<?php echo $row["id"]; ?>"></a></td>
@@ -57,6 +59,47 @@ require 'listComponents/listTop.php';
         <?php } ?>
     </tbody>
 </table>
-<?php
-require 'listComponents/listBtm.php';
-?>
+<script>
+    $(document).ready(function () {
+        $("#deleteSelectedButton").on("click", function () {
+            var selectedExpenseCategories = $(".delete-checkbox:checked").map(function () {
+                return $(this).data("expense-category-id");
+            }).get();
+
+            if (selectedExpenseCategories.length > 0) {
+                var confirmation = confirm("Are you sure you want to delete the selected expense categories?");
+                if (confirmation) {
+                    window.location.href = "?deleteExpenseCategory=" + selectedExpenseCategories.join(",");
+                }
+            } else {
+                alert("Please select at least one expense category to delete.");
+            }
+        });
+
+        $("#selectAllCheckbox").on("change", function () {
+            var isChecked = $(this).prop("checked");
+            $(".delete-checkbox").prop("checked", isChecked).change();
+        });
+
+        $(".delete-checkbox").on("change", function () {
+            var anyCheckboxChecked = $(".delete-checkbox:checked").length > 0;
+
+            if (anyCheckboxChecked) {
+                $(".listNavigationDeff").css("display", "none");
+                $(".listNavigationOnSelect").css("display", "flex");
+
+                var selectedCount = $(".delete-checkbox:checked").length;
+                if (selectedCount > 1) {
+                    $("#editSelectedButton").css("display", "none");
+                } else {
+                    $("#editSelectedButton").css("display", "flex");
+                }
+            } else {
+                $(".listNavigationDeff").css("display", "grid");
+                $(".listNavigationOnSelect").css("display", "none");
+                $("#editSelectedButton").css("display", "flex");
+            }
+        });
+    });
+</script>
+<?php require 'listComponents/listBtm.php'; ?>

@@ -1,0 +1,79 @@
+.formContainer{
+    width: max-content;
+    padding: 10px;
+    margin: 10px;
+    
+
+    display: grid;
+    gap: 10px;
+
+    border-radius: 10px;
+}
+.formItems{
+    background-color: none;
+    display: grid;
+    gap: 10px;
+}
+.formHead, .formItem, .formItemAdd{
+    width: 500px;
+
+    border: 3px solid var(--blue10);
+
+    padding: 10px;
+
+    display: grid;
+    grid-template-columns: auto;
+    gap: 5px;
+
+    border-radius: 10px;
+}
+:is(.formHead, .formItem, .formItemAdd) :is(input, select, option), .select2{
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: var(--dark30);
+}
+:is(.formHead, .formItem, .formItemAdd, ) :is(input, select, option, .select2 *):focus{
+    outline: none;
+}
+.formItem{
+    grid-template-columns: repeat(2, 1fr);
+}
+.formItemAdd{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.formItemAdd img{
+    height: 30px;
+}
+.select2{
+    padding: 10px 3px 3px 3px;
+}
+.select2-container--my-custom-theme .select2-dropdown {
+    background-color: var(--dark10);
+    color: white;
+    outline: none;
+    border: 3px solid var(--dark20);
+    display: grid;
+    gap: 1px;
+}
+
+.select2-container--my-custom-theme .select2-search__field {
+    border: 2px solid var(--dark30);
+    background-color: var(--dark20);
+    font-size: 15px;
+}
+:is(.select2-container--my-custom-theme, .select2-search__field):focus {
+    outline: none;
+}
+.select2-container--my-custom-theme .select2-results__option--highlighted {
+    background-color: var(--blue10);
+}
+/* CSS to style the "Enter new category" option in Select2 dropdown */
+.select2-results__option[data-select2-id="__new__"] {
+    font-size: 20px;
+    font-weight: 900;
+    color: green; /* Add your desired color */
+}

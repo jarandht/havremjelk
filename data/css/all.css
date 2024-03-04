@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
-    color: white;
+    color: var(--light00);
     font-family: quicksand;
 }
 
@@ -51,22 +51,23 @@ h1{
     position: absolute;
     width: max-content;
     z-index: 999;
-    top: -100px;
+    top: 50%;
     margin: auto;
     left: 0;
     right: 0;
+    opacity: 0;
     background-color: var(--dark00);
     border: 3px solid var(--blue10);
     border-radius: 5px;
     padding: 10px;
     font-size: 20px;
-    animation: error 10s ease;
+    animation: error 5s ease;
 }
 @keyframes error{
-    0% {top: -100px}
-    10% {top: 20px}
-    90% {top: 20px}
-    100% {top: -100px}
+    0% {opacity: 0;}
+    10% {opacity: 1;}
+    90% {opacity: 1;}
+    100% {opacity: 0;}
 }
 ::-webkit-scrollbar {
     width: 20px;
