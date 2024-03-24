@@ -20,42 +20,49 @@ if (isset($_POST["submit"])) {
         // Check if the expensecategory exists, if not, insert it
         $expensecategory_id = getExpenseCategoryId($conn, null, $expensecategory_name);
 
-        // Check if $expensecategory_id is null before using it in the SQL query
-        if ($expensecategory_id !== null) {
-            // Check if expensesource_id is a new entry
-            if (isset($_POST["txtExpensesource_id"]) && $_POST["txtExpensesource_id"] === '__new__') {
-                // Insert a new record for expensesource
-                $expensesource_name = $conn->real_escape_string($_POST["txtExpensesourceName"]);
-                $expensesource_id = insertNewRecord($conn, 'expensesource', 'expensesource_name', $expensesource_name);
-            } elseif (isset($_POST["txtExpensesource_id"])) {
-                $expensesource_id = $conn->real_escape_string($_POST["txtExpensesource_id"]);
-            }
+// Check if the expensecategory exists, if not, insert it
+$expensecategory_id = getExpenseCategoryId($conn, null, $expensecategory_name);
 
-            // Check if store_id is a new entry
-            if (isset($_POST["txtStore_id"]) && $_POST["txtStore_id"] === '__new__') {
-                // Insert a new record for store
-                $store_name = $conn->real_escape_string($_POST["txtStoreName"]);
-                $store_id = insertNewRecord($conn, 'store', 'store_name', $store_name);
-            } elseif (isset($_POST["txtStore_id"])) {
-                $store_id = $conn->real_escape_string($_POST["txtStore_id"]);
-            }
+// Check if $expensecategory_id is null before using it in the SQL query
+if ($expensecategory_id !== null) {
+    // Check if expensesource_id is a new entry
+    if (isset($_POST["txtExpensesource_id"]) && $_POST["txtExpensesource_id"] === '__new__') {
+        // Insert a new record for expensesource
+        $expensesource_name = $conn->real_escape_string($_POST["txtExpensesourceName"]);
+        $expensesource_id = insertNewRecord($conn, 'expensesource', 'expensesource_name', $expensesource_name);
+    } elseif (!empty($_POST["txtExpensesource_id"]) && $_POST["txtExpensesource_id"] !== '__new__') {
+        $expensesource_id = $conn->real_escape_string($_POST["txtExpensesource_id"]);
+    } else {
+        $expensesource_id = "NULL"; // Assuming expensesource_id is nullable, adjust if necessary
+    }
 
-            $comment = isset($_POST["txtComment"]) ? $conn->real_escape_string($_POST["txtComment"]) : "";
-            $date = isset($_POST["txtDate"]) ? $conn->real_escape_string($_POST["txtDate"]) : "";
+    // Check if store_id is a new entry
+    if (isset($_POST["txtStore_id"]) && $_POST["txtStore_id"] === '__new__') {
+        // Insert a new record for store
+        $store_name = $conn->real_escape_string($_POST["txtStoreName"]);
+        $store_id = insertNewRecord($conn, 'store', 'store_name', $store_name);
+    } elseif (!empty($_POST["txtStore_id"]) && $_POST["txtStore_id"] !== '__new__') {
+        $store_id = $conn->real_escape_string($_POST["txtStore_id"]);
+    } else {
+        $store_id = "NULL"; // Assuming store_id is nullable, adjust if necessary
+    }
 
-            // Build the SQL query
-            $sql = "INSERT INTO expense (chost, volume, discount, comment, expensecategory_id, date, expensesource_id, store_id) VALUES('$chost', $volume, '$discount', '$comment', $expensecategory_id, '$date', $expensesource_id, $store_id)";
+    $comment = isset($_POST["txtComment"]) ? $conn->real_escape_string($_POST["txtComment"]) : "";
+    $date = isset($_POST["txtDate"]) ? $conn->real_escape_string($_POST["txtDate"]) : "";
 
-            // Execute the query
-            if ($conn->query($sql) === TRUE) {
-                // Record inserted successfully, but don't output anything here
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
-        } else {
-            // Handle the case where $expensecategory_id is null (e.g., an error occurred during insertion)
-            echo "Error getting expense category ID.";
-        }
+    // Build the SQL query
+    $sql = "INSERT INTO expense (chost, volume, discount, comment, expensecategory_id, date, expensesource_id, store_id) VALUES('$chost', $volume, '$discount', '$comment', $expensecategory_id, '$date', $expensesource_id, $store_id)";
+
+    // Execute the query
+    if ($conn->query($sql) === TRUE) {
+        // Record inserted successfully, but don't output anything here
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+} else {
+    // Handle the case where $expensecategory_id is null (e.g., an error occurred during insertion)
+    echo "Error getting expense category ID.";
+}
     }
 }
 
