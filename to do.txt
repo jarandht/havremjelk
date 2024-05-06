@@ -1,4 +1,13 @@
-Must keep 1 year
 Edit
-Fiks delete
 Table månad
+Table week
+Kvittering
+Notat
+
+Settings:
+Color
+Icon
+Title
+Curency
+Def page
+Database

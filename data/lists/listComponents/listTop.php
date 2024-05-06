@@ -35,7 +35,7 @@
                         <button> <img src="/img/gear.png" alt=""></button>
                     </div>
                     <div class="listNavigationOnSelect">
-                        <button id="deleteSelectedButton"> <img src="/img/bin.png" alt="">Delete</button>
+                        <button style="margin-right: 10px;" id="deleteSelectedButton"> <img src="/img/bin.png" alt="">Delete</button>
                         <button id="editSelectedButton"><img src="/img/pen.png" alt="">Edit</button>
                     </div>
                 </section>

@@ -31,140 +31,120 @@ $year = $conn->query($sqlyear);
 
 $conn->close();
 ?>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-zqkZMVAi+Z5Mdy1PZNEj7go+l4H/v5mQs0vFowUeCuI1lxuyTvvoRNGP89YUeGFLzBSyZl0AtcTqAK/HsoGxww==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<script>
-   $(document).ready(function() {
-      $('#txtExpensecategory_id').select2({
-         theme: 'my-custom-theme',
-         tags: true, // Allow users to create new tags
-         tokenSeparators: [',', ' '], // Define separators for multiple tags
-      });
-      $('#txtExpensesource_id').select2({
-         theme: 'my-custom-theme'
-      });
-      $('#txtStore_id').select2({
-         theme: 'my-custom-theme'
-      });
-   });
-</script>
-<script>
-   $(document).ready(function() {
-      $('#txtExpensecategory_id').select2({
-         theme: 'my-custom-theme',
-         placeholder: 'Select Category',
-      });
-
-      // Show/hide the text input based on selection
-      $('#txtExpensecategory_id').on('change', function () {
-         if ($(this).val() === '__new__') {
-            $('#txtExpensecategoryName').show();
-         } else {
-            $('#txtExpensecategoryName').hide();
-         }
-      });
-   });
-</script>
-<script>
-   $(document).ready(function() {
-      // Initialize Select2 for Store and Expensesource
-      $('#txtStore_id, #txtExpensesource_id').select2({
-         theme: 'my-custom-theme',
-      });
-
-      // Show/hide the text input for new Store
-      $('#txtStore_id').on('change', function () {
-         if ($(this).val() === '__new__') {
-            $('#txtStoreName').show();
-         } else {
-            $('#txtStoreName').hide();
-         }
-      });
-
-      // Show/hide the text input for new Expensesource
-      $('#txtExpensesource_id').on('change', function () {
-         if ($(this).val() === '__new__') {
-            $('#txtExpensesourceName').show();
-         } else {
-            $('#txtExpensesourceName').hide();
-         }
-      });
-   });
-</script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-zqkZMVAi+Z5Mdy1PZNEj7go+l4H/v5mQs0vFowUeCuI1lxuyTvvoRNGP89YUeGFLzBSyZl0AtcTqAK/HsoGxww==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <main>
-    <?php require '../nav/nav.php'; ?>
-    <section class="list">
-        <?php require './sideMenu.php'; ?>
-        <section>
-            <form method="post" action="prosesses/expense.php">
-                <section class="formContainer">
-                    <div class="formHead">
-                        <label for="">General Options</label>
-                        <input type="date" name="txtDate" id="txtDate" required>
-                        <select name="txtExpensecategory_id" id="txtExpensecategory_id" required>
-                            <option value="">Select Category</option>
-                            <option value="__new__">Enter new category</option>
-                            <?php while ($rowExpensecategory = mysqli_fetch_array($expensecategory)) {
-                                echo "<option value='{$rowExpensecategory["id"]}'>{$rowExpensecategory["expensecategory_name"]}</option>";
-                            } ?>
-                        </select>
-                        <input type="text" name="txtExpensecategoryName" id="txtExpensecategoryName" style="display: none;" placeholder="New Category">
-                       <!-- Store Dropdown -->
-                       <select name="txtStore_id" id="txtStore_id">
-                           <option value="">Unknown</option>
-                            <option value="__new__">Enter new store</option>
-                            <?php while ($rowStore = mysqli_fetch_array($store)) {
-                                echo "<option value='{$rowStore["id"]}'>{$rowStore["store_name"]}</option>";
-                            } ?>
-                        </select>
-                        <input type="text" name="txtStoreName" id="txtStoreName" style="display: none;" placeholder="New Store">
+   <?php require '../nav/nav.php'; ?>
+   <section class="list">
+      <?php require './sideMenu.php'; ?>
+      <form method="post" action="prosesses/expense.php">
+         <section class="listContent">
+            <div class="listNavigation formGeneral formHead">
+               <button type="submit" name="submit">Submit</button>
+               <button type="button" class="addItem">Add Item</button>
+               <input type="date" name="txtDate[]" id="txtDate" required />
 
-                    </div>
-                    <div class="formItems">
-                        <div class="formItem">
-                            <label for="">Source</label>
-                            <!-- Expensesource Dropdown -->
-                            <select name="txtExpensesource_id" id="txtExpensesource_id">
-                                <option value="">Unknown</option>
-                                <option value="__new__">Enter new expensesource</option>
-                                <?php while ($rowExpensesource = mysqli_fetch_array($expensesource)) {
-                                    echo "<option value='{$rowExpensesource["id"]}'>{$rowExpensesource["expensesource_name"]}</option>";
-                                } ?>
-                            </select>
-                            <input type="text" name="txtExpensesourceName" id="txtExpensesourceName" style="display: none;" placeholder="New Expensesource">
-                        
-                            <label for="txtChost">Cost</label>
-                            <input type="number" name="txtChost" id="txtChost" step="any" required />
+               <!-- Category -->
+               <select require name="txtExpensecategory_id" id="txtExpensecategory_id" required>
+                  <option value="">Select Category</option>
+                  <option value="__new__">Enter new category</option>
+                  <?php while ($rowExpensecategory = mysqli_fetch_array($expensecategory)) {
+                        echo "<option value='{$rowExpensecategory["id"]}'>{$rowExpensecategory["expensecategory_name"]}</option>";
+                  } ?>
+               </select>
+               <input type="text" name="txtExpensecategoryName" id="txtExpensecategoryName" style="display: none;" placeholder="New Category">
+               
+               <!-- Store -->
+               <select name="txtStore_id" id="txtStore_id">
+                  <option value="">Unknown</option>
+                  <option value="__new__">Enter new store</option>
+                  <?php while ($rowStore = mysqli_fetch_array($store)) {
+                        echo "<option value='{$rowStore["id"]}'>{$rowStore["store_name"]}</option>";
+                  } ?>
+               </select>
+               <input type="text" name="txtStoreName" id="txtStoreName" style="display: none;" placeholder="New Store">
+               
 
-                            <label for="repeatCount">Repeat Count</label>
-                            <input type="number" name="repeatCount" id="repeatCount" />
-
-                            <label for="txtDiscount"><p>Discount</p></label>
-                            <input type="text" name="txtDiscount" id="txtDiscount"/>
-
-                            <label for="">Volume</label>
-                            <input type="number" name="txtVolume" id="txtVolume" step="any" />
-
-                            <label for="">Comment</label>
-                            <input type="number" name="txtComment" id="txtComment" step="any" />
-                        </div>
-                        <div class="formItemAdd">
-                            <img src="/img/pluss.png" alt="">Add Item
-                        </div>
-                        <button type="submit" name="submit">Submit</button>
-                    </div>
-                </section>
-            </form>
-        </section>
-    </section>
+            </div>
+            <div class="listTable formTable">
+               <table>
+                  <tr class="tableTH">
+                        <th></th>
+                        <th>Chost</th>
+                        <th>Source</th>
+                        <th>Repeat Count</th>
+                        <th>Discount</th>
+                        <th>Volume</th>
+                        <th>Comment</th>
+                  </tr>
+                  <tr class="tableTD formTD">
+                        <td></td> <!-- Placeholder for remove button, initially empty -->
+                        <td>
+                           <input type="number" name="txtChost[]" class="chost" step="any" required />
+                        </td>
+                        <td>
+                           <div class="formTD-selectDiv">
+                              <select name="txtExpensesource_id" id="txtExpensesource_id">
+                                    <option value="">Unknown</option>
+                                    <option value="__new__">Enter new source</option>
+                                    <?php while ($rowExpensesource = mysqli_fetch_array($expensesource)) {
+                                          echo "<option value='{$rowExpensesource["id"]}'>{$rowExpensesource["expensesource_name"]}</option>";
+                                       } ?>
+                              </select>
+                              <input type="text" name="txtExpensesourceName" id="txtExpensesourceName" style="display: none;" placeholder="New Expensesource">
+                           </div>
+                        </td>
+                        <td>
+                           <input type="number" name="repeatCount" id="repeatCount" />
+                        </td>
+                        <td>
+                           <input type="text" name="txtDiscount[]" class="discount" step="any" />
+                        </td>
+                        <td>
+                           <input type="text" name="txtVolume[]" class="volume" />
+                        </td>
+                        <td>
+                           <input type="text" name="txtComment[]" class="comment" />
+                        </td>
+                  </tr>
+               </table>
+            </div>
+         </section>
+      </form>
+   </section>
 </main>
 </body>
 </html>
+
 <script src="date.js"></script>
+<script src=" expenseSelect.js"></script>
+<script>
+   $(document).ready(function() {
+      // Add new item when "Add Item" button is clicked
+      $('.addItem').click(function() {
+         // Clone the first form item
+         var newItem = $('.formTD:first').clone();
+
+         // Clear values of input fields in the new item
+         newItem.find('input').val('');
+
+         // Append the "Remove" button to the new item
+         newItem.find('td:first').html('<button type="button" class="removeItem">Remove</button>');
+
+         // Append the new item to the table
+         $('.formTable table').append(newItem);
+      });
+
+      // Remove item when "Remove" button is clicked
+      $('.formTable').on('click', '.removeItem', function() {
+         // Ensure that at least one item remains
+         if ($('.formTable table tr').length > 2) {
+            $(this).closest('tr').remove();
+         }
+      });
+   });
+</script>

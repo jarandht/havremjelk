@@ -232,7 +232,13 @@ try {
                                 </div>
                             <?php endforeach; ?>
                         <?php else : ?>
-                            <p class="widgetContent">No income categories found.</p>
+                            <div class="widget" id="income">
+                                <div>
+                                    <p class="widgetTitle">None Found</p>
+                                    <p class="widgetContent">0kr</p>
+                                </div>
+                                <div class="widgetIndicator"></div>
+                            </div>    
                         <?php endif; ?>
                     </div>
                 </section>
@@ -250,7 +256,13 @@ try {
                                 </div>
                             <?php endforeach; ?>
                         <?php else : ?>
-                            <p class="widgetContent">No expense categories found.</p>
+                            <div class="widget" id="expense">
+                                <div>
+                                    <p class="widgetTitle">None Found</p>
+                                    <p class="widgetContent">0kr</p>
+                                </div>
+                                <div class="widgetIndicator"></div>
+                            </div>                        
                         <?php endif; ?>
                     </div>
                 </section>

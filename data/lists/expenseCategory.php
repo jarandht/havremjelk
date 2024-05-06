@@ -7,29 +7,18 @@ $conn = new mysqli($servername, $username, $password, $database);
 $sqlExpenseCategoryData = "SELECT id, expensecategory_name FROM expensecategory";
 $expenseCategoryData = $conn->query($sqlExpenseCategoryData);
 
-// Delete expense category
-if (isset($_GET["deleteExpenseCategory"])) {
-    $expensecategoryid = $conn->real_escape_string($_GET["deleteExpenseCategory"]);
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteExpenseCategory"])) {
+    $expenseCategoryIds = explode(",", $_GET["deleteExpenseCategory"]);
+    $expenseCategoryIds = array_map('intval', $expenseCategoryIds);
+    $expenseCategoryIds = implode(",", $expenseCategoryIds);
+    $conn->query("DELETE FROM expensecategory WHERE id IN ($expenseCategoryIds)");
 
-    // Attempt to delete the expense category
-    $deleteResult = $conn->query("DELETE FROM expensecategory WHERE id = '$expensecategoryid'");
+    // Redirect back to the referring page
+    $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
+    header("Location: $referer");
+    exit();
+} 
 
-    // Check if the delete query was successful
-    if ($deleteResult) {
-        // Redirect back to the referring page
-        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
-        header("Location: $referer");
-        exit();
-    } else {
-        // Check if the error is related to foreign key constraint
-        $error = $conn->error;
-        if (strpos($error, 'foreign key constraint') !== false) {
-            echo '<div class="error">Error: Category is in use </div>';
-        } else {
-            echo '<div class="error">Error deleting expense category: </div>' . $error;
-        }
-    }
-}
 ?>
 <?php require 'listComponents/listTop.php'; ?>
 <table>

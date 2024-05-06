@@ -7,29 +7,18 @@ $conn = new mysqli($servername, $username, $password, $database);
 $sqlStoreData = "SELECT id, store_name FROM store";
 $storeData = $conn->query($sqlStoreData);
 
-// Delete store entry
-if (isset($_GET["deleteStore"])) {
-    $storeId = $conn->real_escape_string($_GET["deleteStore"]);
+// Delete
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteStore"])) {
+    $storeIds = explode(",", $_GET["deleteStore"]);
+    $storeIds = array_map('intval', $storeIds);
+    $storeIds = implode(",", $storeIds);
+    $conn->query("DELETE FROM store WHERE id IN ($storeIds)");
 
-    // Attempt to delete the store entry
-    $deleteResult = $conn->query("DELETE FROM store WHERE id = '$storeId'");
-
-    // Check if the delete query was successful
-    if ($deleteResult) {
-        // Redirect back to the referring page
-        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
-        header("Location: $referer");
-        exit();
-    } else {
-        // Check if the error is related to foreign key constraint
-        $error = $conn->error;
-        if (strpos($error, 'foreign key constraint') !== false) {
-            echo '<div class="error">Error: Store is in use </div>';
-        } else {
-            echo '<div class="error">Error deleting store entry: </div>' . $error;
-        }
-    }
-}
+    // Redirect back to the referring page
+    $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
+    header("Location: $referer");
+    exit();
+} 
 ?>
 
 <?php require 'listComponents/listTop.php'; ?>

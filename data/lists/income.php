@@ -36,16 +36,18 @@ while ($row = $incomeCategoryResult->fetch_assoc()) {
     $incomeCategory[$row['id']] = $row['incomecategory_name'];
 }
 
-// Delete income
-if (isset($_GET["deleteIncome"])) {
-    $incomeid = $conn->real_escape_string($_GET["deleteIncome"]);
-    $conn->query("DELETE FROM income WHERE income_id = '$incomeid'");
+// Delete
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteIncome"])) {
+    $incomeIds = explode(",", $_GET["deleteIncome"]);
+    $incomeIds = array_map('intval', $incomeIds);
+    $incomeIds = implode(",", $incomeIds);
+    $conn->query("DELETE FROM income WHERE income_id IN ($incomeIds)");
 
     // Redirect back to the referring page
     $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
     header("Location: $referer");
     exit();
-}
+} 
 ?>
 <?php require 'listComponents/listTop.php'; ?>
 <table>
@@ -67,7 +69,7 @@ if (isset($_GET["deleteIncome"])) {
                 <td><?php echo $row["amount"]; ?>kr</td>
                 <td><?php echo isset($incomeSource[$row["incomesource_id"]]) ? $incomeSource[$row["incomesource_id"]] : ''; ?></td>
                 <td><?php echo isset($incomeCategory[$row["incomecategory_id"]]) ? $incomeCategory[$row["incomecategory_id"]] : ''; ?></td>
-                <td><?php echo $row["date"]; ?></td>
+                <td><?php echo date('j F Y', strtotime($row["date"])); ?></td>
             </tr>
         <?php } ?>
     </tbody>

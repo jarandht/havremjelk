@@ -1,69 +1,31 @@
-.formContainer{
-    width: max-content;
-    padding: 10px;
-    margin: 10px;
-    
-
-    display: grid;
-    gap: 10px;
-
-    border-radius: 10px;
+.formTable table td{
+    border-bottom: 1px solid var(--dark30);
+    border-right: 1px solid var(--dark30);
 }
-.formItems{
-    background-color: none;
-    display: grid;
-    gap: 10px;
-}
-.formHead, .formItem, .formItemAdd{
-    width: 500px;
-
-    border: 3px solid var(--blue10);
-
-    padding: 10px;
-
-    display: grid;
-    grid-template-columns: auto;
-    gap: 5px;
-
-    border-radius: 10px;
-}
-:is(.formHead, .formItem, .formItemAdd) :is(input, select, option), .select2{
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 15px;
-    background-color: var(--dark30);
-}
-:is(.formHead, .formItem, .formItemAdd, ) :is(input, select, option, .select2 *):focus{
-    outline: none;
-}
-.formItem{
-    grid-template-columns: repeat(2, 1fr);
-}
-.formItemAdd{
+.formHead{
     display: flex;
-    align-items: center;
-    gap: 10px;
 }
-.formItemAdd img{
-    height: 30px;
+#txtExpensecategory_id,
+#txtExpensesource_id,
+#txtStore_id {
+    background-color: var(--dark30);
+    padding: 10px 15px;
 }
-.select2{
-    padding: 10px 3px 3px 3px;
+:is(.formHead) :is(select, option), .select2{
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: var(--dark30);
 }
 .select2-container--my-custom-theme .select2-dropdown {
     background-color: var(--dark10);
     color: white;
-    outline: none;
-    border: 3px solid var(--dark20);
-    display: grid;
-    gap: 1px;
+    border: 3px solid var(--dark30);
 }
 
 .select2-container--my-custom-theme .select2-search__field {
     border: 2px solid var(--dark30);
     background-color: var(--dark20);
-    font-size: 15px;
 }
 :is(.select2-container--my-custom-theme, .select2-search__field):focus {
     outline: none;
@@ -71,9 +33,46 @@
 .select2-container--my-custom-theme .select2-results__option--highlighted {
     background-color: var(--blue10);
 }
-/* CSS to style the "Enter new category" option in Select2 dropdown */
-.select2-results__option[data-select2-id="__new__"] {
+.select2-selection__rendered{
+    position: relative;
+    top: 6px;
     font-size: 20px;
-    font-weight: 900;
-    color: green; /* Add your desired color */
+}
+.select2::after{
+    content: '';
+    display: inline-block;
+    position: absolute;
+    left: calc(100% - 20px);
+    top: calc(50% - 5px);
+    height: 10px;
+    width: 10px;
+    background-image: url(/img/arrow.png);
+    background-position: center;
+    background-size: cover;
+}
+.formTD .select2-selection__rendered{
+    position: relative;
+    top: 2px;
+    font-size: 15px;
+}
+.formTD .select2{
+    height: 33px;
+}
+.formTD:hover{
+    background-color: var(--dark10);
+    cursor: pointer;
+}
+.formTD :is(input, button, select){
+    background-color: var(--dark30);
+    border: none;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    padding: 7px;   
+}
+.formTD-selectDiv{
+    display: flex;
+    gap: 10px;
 }

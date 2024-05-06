@@ -7,29 +7,18 @@ $conn = new mysqli($servername, $username, $password, $database);
 $sqlIncomeSourceData = "SELECT id, incomesource_name FROM incomesource";
 $incomeSourceData = $conn->query($sqlIncomeSourceData);
 
-// Delete income source
-if (isset($_GET["deleteIncomeSource"])) {
-    $incomesourceid = $conn->real_escape_string($_GET["deleteIncomeSource"]);
+// Delete
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteIncomeSource"])) {
+    $incomeSourceIds = explode(",", $_GET["deleteIncomeSource"]);
+    $incomeSourceIds = array_map('intval', $incomeSourceIds);
+    $incomeSourceIds = implode(",", $incomeSourceIds);
+    $conn->query("DELETE FROM incomesource WHERE id IN ($incomeSourceIds)");
 
-    // Attempt to delete the income source
-    $deleteResult = $conn->query("DELETE FROM incomesource WHERE id = '$incomesourceid'");
-
-    // Check if the delete query was successful
-    if ($deleteResult) {
-        // Redirect back to the referring page
-        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
-        header("Location: $referer");
-        exit();
-    } else {
-        // Check if the error is related to foreign key constraint
-        $error = $conn->error;
-        if (strpos($error, 'foreign key constraint') !== false) {
-            echo '<div class="error">Error: Source is in use</div>';
-        } else {
-            echo '<div class="error">Error deleting income source: </div>' . $error;
-        }
-    }
-}
+    // Redirect back to the referring page
+    $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
+    header("Location: $referer");
+    exit();
+} 
 ?>
 <?php require 'listComponents/listTop.php'; ?>
 <table>

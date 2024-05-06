@@ -4,7 +4,7 @@ require '../components/creds.php';
 $conn = new mysqli($servername, $username, $password, $database);
 
 // Fetch expense data
-$sqlExpenseData = "SELECT expense_id, date, chost, discount, expensesource_id, expensecategory_id, store_id, volume FROM expense ORDER BY expense_id DESC";
+$sqlExpenseData = "SELECT expense_id, date, chost, discount, expensesource_id, comment, expensecategory_id, store_id, volume FROM expense ORDER BY expense_id DESC";
 $expenseDataResult = $conn->query($sqlExpenseData);
 
 // Check if the query was successful
@@ -72,6 +72,7 @@ $conn->close();
             <th>Volume</th>
             <th>Store</th>
             <th>Category</th>
+            <th>Comment</th>
             <th>Date</th>
         </tr>
     </thead>
@@ -88,7 +89,8 @@ $conn->close();
                 </td>           
                 <td><?php echo isset($stores[$row["store_id"]]) ? $stores[$row["store_id"]] : ''; ?></td>
                 <td><?php echo isset($expenseCategory[$row["expensecategory_id"]]) ? $expenseCategory[$row["expensecategory_id"]] : ''; ?></td>
-                <td><?php echo $row["date"]; ?></td>
+                <td><?php echo $row["comment"]; ?></td>
+                <td><?php echo date('j F Y', strtotime($row["date"])); ?></td>
             </tr>
         <?php } ?>
     </tbody>
@@ -136,8 +138,4 @@ $conn->close();
         });
     });
 </script>
-
-
-
-
 <?php require 'listComponents/listBtm.php'; ?>
