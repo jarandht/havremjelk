@@ -1,16 +1,13 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/components/head.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
-require 'expenseSearch.php';
+require 'incomeSearch.php';
 
-$sqlexpensecategory = "SELECT id, expensecategory_name FROM expensecategory";
-$expensecategory = $conn->query($sqlexpensecategory);
+$sqlincomecategory = "SELECT id, incomecategory_name FROM incomecategory";
+$incomecategory = $conn->query($sqlincomecategory);
 
-$sqlexpensesource = "SELECT id, expensesource_name FROM expensesource";
-$expensesource = $conn->query($sqlexpensesource);
-
-$sqlstore = "SELECT id, store_name FROM store";
-$store = $conn->query($sqlstore);
+$sqlincomesource = "SELECT id, incomesource_name FROM incomesource";
+$incomesource = $conn->query($sqlincomesource);
 
 $conn->close();
 ?>
@@ -24,7 +21,7 @@ $conn->close();
    <?php require $_SERVER['DOCUMENT_ROOT'] . '/nav/nav.php' ;?>
    <section class="list">
       <?php require './sideMenu.php'; ?>
-      <form method="post" action="prosesses/expense.php">
+      <form method="post" action="prosesses/income.php">
          <section class="listContent">
             <div class="listNavigation formGeneral formHead">
                <button type="submit" name="submit">Submit</button>
@@ -32,67 +29,48 @@ $conn->close();
                <input type="date" name="txtDate[]" id="txtDate" required />
 
                <!-- Category -->
-               <select require name="txtExpensecategory_id" id="txtExpensecategory_id" required>
+               <select require name="txtIncomecategory_id" id="txtIncomecategory_id" required>
                   <option value="">Select Category</option>
                   <option value="__new__">Enter new category</option>
-                  <?php while ($rowExpensecategory = mysqli_fetch_array($expensecategory)) {
-                        echo "<option value='{$rowExpensecategory["id"]}'>{$rowExpensecategory["expensecategory_name"]}</option>";
+                  <?php while ($rowIncomecategory = mysqli_fetch_array($incomecategory)) {
+                        echo "<option value='{$rowIncomecategory["id"]}'>{$rowIncomecategory["incomecategory_name"]}</option>";
                   } ?>
                </select>
-               <input type="text" name="txtExpensecategoryName" id="txtExpensecategoryName" style="display: none;" placeholder="New Category">
-               
-               <!-- Store -->
-               <select name="txtStore_id" id="txtStore_id">
-                  <option value="">Unknown</option>
-                  <option value="__new__">Enter new store</option>
-                  <?php while ($rowStore = mysqli_fetch_array($store)) {
-                        echo "<option value='{$rowStore["id"]}'>{$rowStore["store_name"]}</option>";
-                  } ?>
-               </select>
-               <input type="text" name="txtStoreName" id="txtStoreName" style="display: none;" placeholder="New Store">
-               
+               <input type="text" name="txtIncomecategoryName" id="txtIncomecategoryName" style="display: none;" placeholder="New Category">
 
             </div>
             <div class="listTable formTable">
                <table>
                   <tr class="tableTH">
                      <th></th>
-                     <th>Chost</th>
+                     <th>Amount</th>
                      <th>Source</th>
                      <th>Repeat Count</th>
-                     <th>Discount</th>
-                     <th>Volume</th>
                      <th>Comment</th>
                   </tr>
                   <tr class="tableTD formTD">
-                     <td></td> <!-- Placeholder for remove button, initially empty -->
-                     <td>
+                    <td></td> <!-- Placeholder for remove button, initially empty -->
+                    <td>
                         <input type="number" name="txtChost[]" class="chost" step="any" required />
-                     </td>
-                     <td>
+                    </td>
+                    <td>
                         <div class="formTD-selectDiv">
-                           <select name="txtExpensesource_id" id="txtExpensesource_id">
-                                 <option value="">Unknown</option>
-                                 <option value="__new__">Enter new source</option>
-                                 <?php while ($rowExpensesource = mysqli_fetch_array($expensesource)) {
-                                       echo "<option value='{$rowExpensesource["id"]}'>{$rowExpensesource["expensesource_name"]}</option>";
+                            <select name="txtIncomesource_id" id="txtIncomesource_id">
+                                <option value="">Unknown</option>
+                                <option value="__new__">Enter new source</option>
+                                <?php while ($rowIncomesource = mysqli_fetch_array($incimesource)) {
+                                        echo "<option value='{$rowIncomesource["id"]}'>{$rowIncomesource["incomesource_name"]}</option>";
                                     } ?>
-                           </select>
-                           <input type="text" name="txtExpensesourceName" id="txtExpensesourceName" style="display: none;" placeholder="New Expensesource">
+                            </select>
+                            <input type="text" name="txtIncomesourceName" id="txtIncomesourceName" style="display: none;" placeholder="New Incomesource">
                         </div>
-                     </td>
-                     <td>
-                        <input type="number" name="repeatCount" id="repeatCount" />
-                     </td>
-                     <td>
-                        <input type="text" name="txtDiscount[]" class="discount"/>
-                     </td>
-                     <td>
-                        <input type="text" name="txtVolume[]" class="volume"/>
-                     </td>
-                     <td>
+                    </td>
+                    <td>
+                        <input type="number" name="repeatCount" id="repeatCount"/>
+                    </td>
+                    <td>
                         <input type="text" name="txtComment[]" class="comment"/>
-                     </td>
+                    </td>
                   </tr>
                </table>
             </div>
@@ -104,7 +82,7 @@ $conn->close();
 </html>
 
 <script src="date.js"></script>
-<script src="expenseSelect.js"></script>
+<script src="incomeSelect.js"></script>
 <script>
    $(document).ready(function() {
       // Add new item when "Add Item" button is clicked

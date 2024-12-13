@@ -1,7 +1,7 @@
 .navSide{
     height: calc(100vh);
     height: calc(100dvh);
-    background-color: var(--dark00);
+    background-color: var(--dark10);
     display: grid;
     padding: 0px;
     grid-template-rows: repeat(5, max-content) 1fr;
@@ -18,9 +18,7 @@
     justify-content: center;
     width: 100%;
     aspect-ratio: 1/1;
-    border-radius: 0px;
-    /* background-color: var(--dark20); */
-}
+    border-radius: 0px;}
 .navSide .navLogo{
     background-color: var(--blue10) !important;
 }

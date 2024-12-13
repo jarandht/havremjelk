@@ -3,7 +3,7 @@ version: '3.3'
 services:
   # Database
   db: 
-    image: mysql 
+    image: mysql:latest
     restart: always  
     container_name: php-mysql 
     volumes:
@@ -35,7 +35,7 @@ services:
   apache:
     depends_on:
       - db
-    image: php:8.0-apache   
+    image: havremjelk 
     container_name: php-apache
     build:
       context: ./

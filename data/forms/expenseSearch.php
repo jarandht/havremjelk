@@ -1,10 +1,4 @@
 <?php
-// Include your database credentials
-require '../components/creds.php';
-
-// Create a new MySQLi connection
-$conn = new mysqli($servername, $username, $password, $database);
-
 // Check the connection
 if ($conn->connect_error) {
    die("Connection failed: " . $conn->connect_error);
@@ -45,7 +39,4 @@ while ($row = $resultStore->fetch_assoc()) {
       'text' => $row['store_name']
    );
 }
-
-// Close the database connection
-$conn->close();
 ?>

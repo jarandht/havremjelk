@@ -15,7 +15,7 @@ html{
 }
 
 body{
-    background-color: white;
+    background-color: var(--dark00);
     min-height: 100%;
     height: max-content;
     width: 100%;

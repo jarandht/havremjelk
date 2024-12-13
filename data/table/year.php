@@ -1,6 +1,6 @@
 <?php
-require '../components/head.php';
-require '../components/creds.php';
+require $_SERVER['DOCUMENT_ROOT'] .  '/components/head.php';
+require $_SERVER['DOCUMENT_ROOT'] .  '/components/creds.php';
 
 // Connect to the database
 $conn = new mysqli($servername, $username, $password, $database);

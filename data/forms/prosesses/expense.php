@@ -1,7 +1,5 @@
 <?php
-require '../../components/creds.php';
-
-$conn = new mysqli($servername, $username, $password, $database);
+require $_SERVER['DOCUMENT_ROOT'] .  '/components/creds.php';
 
 // Default repeat count to 1 if not set or empty
 $repeatCount = isset($_POST["repeatCount"]) && $_POST["repeatCount"] !== '' ? (int)$_POST["repeatCount"] : 1;
@@ -27,7 +25,7 @@ for ($i = 0; $i < $repeatCount; $i++) {
 
     // Build the SQL query
     $sql = "INSERT INTO expense (chost, volume, discount, comment, expensecategory_id, date, expensesource_id, store_id) VALUES";
-    $sql .= "('$chost', $volume, '$discount', '$comment', $expensecategory_id, '$date', $expensesource_id, $store_id)";
+    $sql .= "('$chost', '$volume', '$discount', '$comment', $expensecategory_id, '$date', $expensesource_id, $store_id)";
 
     // Execute the query
     if ($conn->query($sql) === TRUE) {
@@ -37,9 +35,7 @@ for ($i = 0; $i < $repeatCount; $i++) {
     }
 }
 // Debugging statement
-echo "Debug: Iteration $i - chost: $chost, volume: $volume, discount: $discount, comment: $comment, date: $date<br>";
-
-
+// echo "Debug: Iteration $i - chost: $chost, volume: $volume, discount: $discount, comment: $comment, date: $date<br>";
 
 $conn->close();
 

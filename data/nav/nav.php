@@ -3,7 +3,6 @@
 $current_page = $_SERVER['REQUEST_URI'];
 ?>
 
-
 <nav class="navSide">
     <div class="navLogo">
         <img src="/img/oatmeal.png" alt="">
