@@ -1,24 +1,22 @@
 <?php
-require '../components/creds.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
 
-$conn = new mysqli($servername, $username, $password, $database);
+// Fetch incomeCategory data
+$sqlIncomeCategoryData = "SELECT id, incomecategory_name FROM incomecategory";
+$incomeCategoryData = $conn->query($sqlIncomeCategoryData);
 
-// Fetch expenseCategory data
-$sqlExpenseCategoryData = "SELECT id, expensecategory_name FROM expensecategory";
-$expenseCategoryData = $conn->query($sqlExpenseCategoryData);
-
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteExpenseCategory"])) {
-    $expenseCategoryIds = explode(",", $_GET["deleteExpenseCategory"]);
-    $expenseCategoryIds = array_map('intval', $expenseCategoryIds);
-    $expenseCategoryIds = implode(",", $expenseCategoryIds);
-    $conn->query("DELETE FROM expensecategory WHERE id IN ($expenseCategoryIds)");
+// Delete
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteIncomeCategory"])) {
+    $incomeCategoryIds = explode(",", $_GET["deleteIncomeCategory"]);
+    $incomeCategoryIds = array_map('intval', $incomeCategoryIds);
+    $incomeCategoryIds = implode(",", $incomeCategoryIds);
+    $conn->query("DELETE FROM incomecategory WHERE id IN ($incomeCategoryIds)");
 
     // Redirect back to the referring page
     $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
     header("Location: $referer");
     exit();
 } 
-
 ?>
 <?php require 'listComponents/listTop.php'; ?>
 <table>
@@ -34,16 +32,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteExpenseCategory"])
     <tbody>
         <?php
         // Reset the internal pointer to the beginning of the result set
-        $expenseCategoryData->data_seek(0);
+        $incomeCategoryData->data_seek(0);
 
-        while ($row = $expenseCategoryData->fetch_assoc()) {
+        while ($row = $incomeCategoryData->fetch_assoc()) {
         ?>
             <tr class="tableTD">
-                <td><span class="checkbox"><input type="checkbox" class="delete-checkbox" data-expense-category-id="<?php echo $row["id"]; ?>"></span></td>
+                <td><span class="checkbox"><input type="checkbox" class="delete-checkbox" data-income-category-id="<?php echo $row["id"]; ?>"></span></td>
                 <td><?php echo $row["id"]; ?></td>
-                <td><?php echo $row["expensecategory_name"]; ?></td>
-                <td><a class="listedit" href="?editExpenseCategory=<?php echo $row["id"]; ?>"></a></td>
-                <td><a class="listdelete" href="?deleteExpenseCategory=<?php echo $row["id"]; ?>"></a></td>
+                <td><?php echo $row["incomecategory_name"]; ?></td>
+                <td><a class="listedit" href="?editIncomeCategory=<?php echo $row["id"]; ?>"></a></td>
+                <td><a class="listdelete" href="?deleteIncomeCategory=<?php echo $row["id"]; ?>"></a></td>
             </tr>
         <?php } ?>
     </tbody>
@@ -51,17 +49,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteExpenseCategory"])
 <script>
     $(document).ready(function () {
         $("#deleteSelectedButton").on("click", function () {
-            var selectedExpenseCategories = $(".delete-checkbox:checked").map(function () {
-                return $(this).data("expense-category-id");
+            var selectedIncomeCategories = $(".delete-checkbox:checked").map(function () {
+                return $(this).data("income-category-id");
             }).get();
 
-            if (selectedExpenseCategories.length > 0) {
-                var confirmation = confirm("Are you sure you want to delete the selected expense categories?");
+            if (selectedIncomeCategories.length > 0) {
+                var confirmation = confirm("Are you sure you want to delete the selected income categories?");
                 if (confirmation) {
-                    window.location.href = "?deleteExpenseCategory=" + selectedExpenseCategories.join(",");
+                    window.location.href = "?deleteIncomeCategory=" + selectedIncomeCategories.join(",");
                 }
             } else {
-                alert("Please select at least one expense category to delete.");
+                alert("Please select at least one income category to delete.");
             }
         });
 

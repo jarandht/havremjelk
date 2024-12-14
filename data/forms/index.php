@@ -1,4 +1,4 @@
 <?php
-header("Location: /forms/expense.php");
+header("Location: /forms/expense");
 exit(); 
 ?>

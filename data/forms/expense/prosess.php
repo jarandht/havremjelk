@@ -37,6 +37,8 @@ for ($i = 0; $i < $repeatCount; $i++) {
 // Debugging statement
 // echo "Debug: Iteration $i - chost: $chost, volume: $volume, discount: $discount, comment: $comment, date: $date<br>";
 
+require $_SERVER['DOCUMENT_ROOT'] .  '/components/return.php';
+
 $conn->close();
 
 // Function to add expense category if it doesn't exist and return its ID

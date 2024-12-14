@@ -1,4 +1,3 @@
-
 <?php
 require $_SERVER['DOCUMENT_ROOT'] .  '/components/creds.php';
 
@@ -12,7 +11,7 @@ $incomesource_id = addIncomeSource($conn);
 // Loop through each item
 for ($i = 0; $i < $repeatCount; $i++) {
     // Retrieve values for the current iteration
-    $chost = isset($_POST["txtChost"][$i]) ? $conn->real_escape_string($_POST["txtChost"][$i]) : "";
+    $amount = isset($_POST["txtAmount"][$i]) ? $conn->real_escape_string($_POST["txtAmount"][$i]) : "";
     $comment = isset($_POST["txtComment"][$i]) ? $conn->real_escape_string($_POST["txtComment"][$i]) : "";
     $date = isset($_POST["txtDate"][$i]) ? $conn->real_escape_string($_POST["txtDate"][$i]) : "";
 
@@ -22,8 +21,8 @@ for ($i = 0; $i < $repeatCount; $i++) {
     }
 
     // Build the SQL query
-    $sql = "INSERT INTO income (chost, comment, incomecategory_id, date, incomesource_id) VALUES";
-    $sql .= "('$chost', '$comment', $incomecategory_id, '$date', $incomesource_id)";
+    $sql = "INSERT INTO income (amount, comment, incomecategory_id, date, incomesource_id) VALUES";
+    $sql .= "('$amount', '$comment', $incomecategory_id, '$date', $incomesource_id)";
 
     // Execute the query
     if ($conn->query($sql) === TRUE) {
@@ -32,6 +31,8 @@ for ($i = 0; $i < $repeatCount; $i++) {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
+
+require $_SERVER['DOCUMENT_ROOT'] .  '/components/return.php';
 
 $conn->close();
 

@@ -1,7 +1,5 @@
 <?php
-require '../components/creds.php';
-
-$conn = new mysqli($servername, $username, $password, $database);
+require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
 
 // Fetch income data
 $sqlIncomeData = "SELECT income_id, amount, date, incomesource_id, incomecategory_id FROM income";

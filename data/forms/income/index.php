@@ -1,7 +1,7 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/components/head.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
-require 'incomeSearch.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/components/forms/incomeSearch.php';
 
 $sqlincomecategory = "SELECT id, incomecategory_name FROM incomecategory";
 $incomecategory = $conn->query($sqlincomecategory);
@@ -18,10 +18,10 @@ $conn->close();
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-zqkZMVAi+Z5Mdy1PZNEj7go+l4H/v5mQs0vFowUeCuI1lxuyTvvoRNGP89YUeGFLzBSyZl0AtcTqAK/HsoGxww==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <main>
-   <?php require $_SERVER['DOCUMENT_ROOT'] . '/nav/nav.php' ;?>
+   <?php require $_SERVER['DOCUMENT_ROOT'] . '/components/nav.php' ;?>
    <section class="list">
-      <?php require './sideMenu.php'; ?>
-      <form method="post" action="prosesses/income.php">
+      <?php require $_SERVER['DOCUMENT_ROOT'] . '/components/forms/sideMenu.php'; ?>
+      <form method="post" action="prosess.php">
          <section class="listContent">
             <div class="listNavigation formGeneral formHead">
                <button type="submit" name="submit">Submit</button>
@@ -51,14 +51,14 @@ $conn->close();
                   <tr class="tableTD formTD">
                     <td></td> <!-- Placeholder for remove button, initially empty -->
                     <td>
-                        <input type="number" name="txtChost[]" class="chost" step="any" required />
+                        <input type="number" name="txtAmount[]" class="chost" step="any" required />
                     </td>
                     <td>
                         <div class="formTD-selectDiv">
                             <select name="txtIncomesource_id" id="txtIncomesource_id">
                                 <option value="">Unknown</option>
                                 <option value="__new__">Enter new source</option>
-                                <?php while ($rowIncomesource = mysqli_fetch_array($incimesource)) {
+                                <?php while ($rowIncomesource = mysqli_fetch_array($incomesource)) {
                                         echo "<option value='{$rowIncomesource["id"]}'>{$rowIncomesource["incomesource_name"]}</option>";
                                     } ?>
                             </select>

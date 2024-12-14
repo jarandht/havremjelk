@@ -7,9 +7,6 @@ $(document).ready(function() {
     $('#txtIncomesource_id').select2({
        theme: 'my-custom-theme'
     });
-    $('#txtStore_id').select2({
-       theme: 'my-custom-theme'
-    });
  });
 
  $(document).ready(function() {
@@ -29,20 +26,6 @@ $(document).ready(function() {
  });
 
  $(document).ready(function() {
-    // Initialize Select2 for Store and Incomesource
-    $('#txtStore_id, #txtIncomesource_id').select2({
-       theme: 'my-custom-theme',
-    });
-
-    // Show/hide the text input for new Store
-    $('#txtStore_id').on('change', function () {
-       if ($(this).val() === '__new__') {
-          $('#txtStoreName').show();
-       } else {
-          $('#txtStoreName').hide();
-       }
-    });
-
     // Show/hide the text input for new Incomesource
     $('#txtIncomesource_id').on('change', function () {
        if ($(this).val() === '__new__') {

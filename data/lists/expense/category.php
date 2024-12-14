@@ -1,32 +1,31 @@
 <?php
-require '../components/creds.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
 
-$conn = new mysqli($servername, $username, $password, $database);
 
-// Fetch income source data
-$sqlIncomeSourceData = "SELECT id, incomesource_name FROM incomesource";
-$incomeSourceData = $conn->query($sqlIncomeSourceData);
+// Fetch expenseCategory data
+$sqlExpenseCategoryData = "SELECT id, expensecategory_name FROM expensecategory";
+$expenseCategoryData = $conn->query($sqlExpenseCategoryData);
 
-// Delete
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteIncomeSource"])) {
-    $incomeSourceIds = explode(",", $_GET["deleteIncomeSource"]);
-    $incomeSourceIds = array_map('intval', $incomeSourceIds);
-    $incomeSourceIds = implode(",", $incomeSourceIds);
-    $conn->query("DELETE FROM incomesource WHERE id IN ($incomeSourceIds)");
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteExpenseCategory"])) {
+    $expenseCategoryIds = explode(",", $_GET["deleteExpenseCategory"]);
+    $expenseCategoryIds = array_map('intval', $expenseCategoryIds);
+    $expenseCategoryIds = implode(",", $expenseCategoryIds);
+    $conn->query("DELETE FROM expensecategory WHERE id IN ($expenseCategoryIds)");
 
     // Redirect back to the referring page
     $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
     header("Location: $referer");
     exit();
 } 
+
 ?>
-<?php require 'listComponents/listTop.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/components/lists/listTop.php'; ?>
 <table>
     <thead>
         <tr class="tableTH">
             <th><span class="checkbox"><input style="background-color: var(--dark30)" type="checkbox" id="selectAllCheckbox"></span></th>
             <th class="listSortUp">#</th>
-            <th>Source Name</th>
+            <th>Category Name</th>
             <th></th>
             <th></th>
         </tr>
@@ -34,16 +33,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteIncomeSource"])) {
     <tbody>
         <?php
         // Reset the internal pointer to the beginning of the result set
-        $incomeSourceData->data_seek(0);
+        $expenseCategoryData->data_seek(0);
 
-        while ($row = $incomeSourceData->fetch_assoc()) {
+        while ($row = $expenseCategoryData->fetch_assoc()) {
         ?>
             <tr class="tableTD">
-                <td><span class="checkbox"><input type="checkbox" class="delete-checkbox" data-income-source-id="<?php echo $row["id"]; ?>"></span></td>
+                <td><span class="checkbox"><input type="checkbox" class="delete-checkbox" data-expense-category-id="<?php echo $row["id"]; ?>"></span></td>
                 <td><?php echo $row["id"]; ?></td>
-                <td><?php echo $row["incomesource_name"]; ?></td>
-                <td><a class="listedit" href="?editIncomeSource=<?php echo $row["id"]; ?>"></a></td>
-                <td><a class="listdelete" href="?deleteIncomeSource=<?php echo $row["id"]; ?>"></a></td>
+                <td><?php echo $row["expensecategory_name"]; ?></td>
+                <td><a class="listedit" href="?editExpenseCategory=<?php echo $row["id"]; ?>"></a></td>
+                <td><a class="listdelete" href="?deleteExpenseCategory=<?php echo $row["id"]; ?>"></a></td>
             </tr>
         <?php } ?>
     </tbody>
@@ -51,17 +50,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteIncomeSource"])) {
 <script>
     $(document).ready(function () {
         $("#deleteSelectedButton").on("click", function () {
-            var selectedIncomeSources = $(".delete-checkbox:checked").map(function () {
-                return $(this).data("income-source-id");
+            var selectedExpenseCategories = $(".delete-checkbox:checked").map(function () {
+                return $(this).data("expense-category-id");
             }).get();
 
-            if (selectedIncomeSources.length > 0) {
-                var confirmation = confirm("Are you sure you want to delete the selected income sources?");
+            if (selectedExpenseCategories.length > 0) {
+                var confirmation = confirm("Are you sure you want to delete the selected expense categories?");
                 if (confirmation) {
-                    window.location.href = "?deleteIncomeSource=" + selectedIncomeSources.join(",");
+                    window.location.href = "?deleteExpenseCategory=" + selectedExpenseCategories.join(",");
                 }
             } else {
-                alert("Please select at least one income source to delete.");
+                alert("Please select at least one expense category to delete.");
             }
         });
 
@@ -91,4 +90,4 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteIncomeSource"])) {
         });
     });
 </script>
-<?php require 'listComponents/listBtm.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/components/lists/listBtm.php'; ?>

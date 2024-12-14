@@ -1,7 +1,5 @@
 <?php
-require '../components/creds.php';
-
-$conn = new mysqli($servername, $username, $password, $database);
+require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
 
 // Fetch expense data
 $sqlExpenseData = "SELECT expense_id, date, chost, discount, expensesource_id, comment, expensecategory_id, store_id, volume FROM expense ORDER BY expense_id DESC";
@@ -61,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteExpense"])) {
 $conn->close();
 ?>
 
-<?php require 'listComponents/listTop.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/components/lists/listTop.php'; ?>
     <thead>
         <tr class="tableTH">
             <th><span class="checkbox"><input style="background-color: var(--dark30)" type="checkbox" id="selectAllCheckbox"></span></th>
@@ -138,4 +136,4 @@ $conn->close();
         });
     });
 </script>
-<?php require 'listComponents/listBtm.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/components/lists/listBtm.php'; ?>

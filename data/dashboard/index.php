@@ -1,6 +1,6 @@
 <?php
-require '../components/creds.php';
-require '../components/head.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/components/head.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
 
 // Function to calculate total amount for a specific category and year
 function calculateTotal($conn, $table, $amountColumn, $dateColumn, $yearId = null)
@@ -159,7 +159,7 @@ try {
 
 <body>
     <main>
-        <?php require '../nav/nav.php'; ?>
+        <?php require $_SERVER['DOCUMENT_ROOT'] . '/components/nav.php'; ?>
         <section class="home">
             <section class="content">
                 <section class="widgetCategory">
@@ -167,23 +167,30 @@ try {
                     <div class="widgets">
                         <div class="widget" id="income">
                             <div>
-                                <p class="widgetTitle">total income</p>
+                                <p class="widgetTitle">Total Income</p>
                                 <p class="widgetContent"><?= number_format($totalIncome, 0, '', ' ') ?>kr</p>
                             </div>
                             <div class="widgetIndicator"></div>
                         </div>
                         <div class="widget" id="expense">
                             <div>
-                                <p class="widgetTitle">total expenses</p>
+                                <p class="widgetTitle">Total Expenses</p>
                                 <p class="widgetContent"><?= number_format($totalExpenses, 0, '', ' ') ?>kr</p>
+                            </div>
+                            <div class="widgetIndicator"></div>
+                        </div>
+                        <?php $balance = $totalIncome - $totalExpenses; ?>
+                        <div class="widget" id="<?= $balance >= 0 ? 'income' : 'expense'; ?>">
+                            <div>
+                                <p class="widgetTitle">Balance (Income - Expenses)</p>
+                                <p class="widgetContent">
+                                    <?= number_format($balance, 0, '', ' ') ?>kr
+                                </p>
                             </div>
                             <div class="widgetIndicator"></div>
                         </div>
                     </div>
                 </section>
-
-
-
 
                 <section class="widgetCategory">
                     <h2>Yearly Income Totals</h2>
@@ -215,8 +222,21 @@ try {
                     </div>
                 </section>
 
-
-
+                <section class="widgetCategory">
+                    <h2>Yearly Balance (Income - Expenses)</h2>
+                    <div class="widgets">
+                        <?php foreach ($yearlyTotals as $yearId => $totals) : ?>
+                            <?php $balance = $totals['income'] - $totals['expenses']; ?>
+                            <div class="widget" id="<?= $balance >= 0 ? 'income' : 'expense'; ?>">
+                                <div>
+                                    <p class="widgetTitle"><?= $yearId ?> Balance</p>
+                                    <p class="widgetContent"><?= number_format($balance, 0, '', ' ') ?>kr</p>
+                                </div>
+                                <div class="widgetIndicator"></div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
 
                 <section class="widgetCategory">
                     <h2>Top 10 Income Categories</h2>

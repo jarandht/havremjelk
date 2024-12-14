@@ -1,7 +1,7 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/components/head.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
-require 'expenseSearch.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/components/forms/expenseSearch.php';
 
 $sqlexpensecategory = "SELECT id, expensecategory_name FROM expensecategory";
 $expensecategory = $conn->query($sqlexpensecategory);
@@ -21,10 +21,10 @@ $conn->close();
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-zqkZMVAi+Z5Mdy1PZNEj7go+l4H/v5mQs0vFowUeCuI1lxuyTvvoRNGP89YUeGFLzBSyZl0AtcTqAK/HsoGxww==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <main>
-   <?php require $_SERVER['DOCUMENT_ROOT'] . '/nav/nav.php' ;?>
+   <?php require $_SERVER['DOCUMENT_ROOT'] . '/components/nav.php' ;?>
    <section class="list">
-      <?php require './sideMenu.php'; ?>
-      <form method="post" action="prosesses/expense.php">
+      <?php require $_SERVER['DOCUMENT_ROOT'] . '/components/forms/SideMenu.php'; ?>
+      <form method="post" action="prosesses.php">
          <section class="listContent">
             <div class="listNavigation formGeneral formHead">
                <button type="submit" name="submit">Submit</button>
