@@ -1,7 +1,5 @@
 <?php
-require '../components/creds.php';
-
-$conn = new mysqli($servername, $username, $password, $database);
+require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
 
 // Fetch store data
 $sqlStoreData = "SELECT id, store_name FROM store";
@@ -21,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteStore"])) {
 } 
 ?>
 
-<?php require 'listComponents/listTop.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/components/lists/listTop.php'; ?>
 
 <table>
     <thead>
@@ -93,5 +91,4 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteStore"])) {
         });
     });
 </script>
-
-<?php require 'listComponents/listBtm.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/components/lists/listBtm.php'; ?>

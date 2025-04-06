@@ -24,7 +24,7 @@ $conn->close();
    <?php require $_SERVER['DOCUMENT_ROOT'] . '/components/nav.php' ;?>
    <section class="list">
       <?php require $_SERVER['DOCUMENT_ROOT'] . '/components/forms/SideMenu.php'; ?>
-      <form method="post" action="prosesses.php">
+      <form method="post" action="prosess.php">
          <section class="listContent">
             <div class="listNavigation formGeneral formHead">
                <button type="submit" name="submit">Submit</button>
@@ -67,7 +67,7 @@ $conn->close();
                   <tr class="tableTD formTD">
                      <td></td> <!-- Placeholder for remove button, initially empty -->
                      <td>
-                        <input type="number" name="txtChost[]" class="chost" step="any" required />
+                        <input type="number" name="txtChost" class="chost" step="any" required />
                      </td>
                      <td>
                         <div class="formTD-selectDiv">
@@ -85,13 +85,13 @@ $conn->close();
                         <input type="number" name="repeatCount" id="repeatCount" />
                      </td>
                      <td>
-                        <input type="text" name="txtDiscount[]" class="discount"/>
+                        <input type="text" name="txtDiscount" class="discount"/>
                      </td>
                      <td>
-                        <input type="text" name="txtVolume[]" class="volume"/>
+                        <input type="text" name="txtVolume" class="volume"/>
                      </td>
                      <td>
-                        <input type="text" name="txtComment[]" class="comment"/>
+                        <input type="text" name="txtComment" class="comment"/>
                      </td>
                   </tr>
                </table>
@@ -103,8 +103,8 @@ $conn->close();
 </body>
 </html>
 
-<script src="date.js"></script>
-<script src="expenseSelect.js"></script>
+<script src="/js/date.js"></script>
+<script src="/js/forms/expenseSelect.js"></script>
 <script>
    $(document).ready(function() {
       // Add new item when "Add Item" button is clicked

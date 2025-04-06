@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["deleteIncomeSource"])) {
 }
 ?>
 
-<?php require 'listComponents/listTop.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/components/lists/listTop.php'; ?>
 <table>
     <thead>
         <tr class="tableTH">
@@ -116,4 +116,4 @@ $(document).ready(function () {
     });
 });
 </script>
-<?php require 'listComponents/listBtm.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/components/lists/listBtm.php'; ?>

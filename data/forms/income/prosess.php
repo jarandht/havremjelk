@@ -1,14 +1,14 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] .  '/components/creds.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/components/creds.php';
 
 // Default repeat count to 1 if not set or empty
 $repeatCount = isset($_POST["repeatCount"]) && $_POST["repeatCount"] !== '' ? (int)$_POST["repeatCount"] : 1;
 
-// Handle adding new, sources, and categories only once
+// Handle adding new income category and source only once
 $incomecategory_id = addIncomeCategory($conn);
 $incomesource_id = addIncomeSource($conn);
 
-// Loop through each item
+// Loop through each item to handle multiple submissions if necessary
 for ($i = 0; $i < $repeatCount; $i++) {
     // Retrieve values for the current iteration
     $amount = isset($_POST["txtAmount"][$i]) ? $conn->real_escape_string($_POST["txtAmount"][$i]) : "";
@@ -21,18 +21,18 @@ for ($i = 0; $i < $repeatCount; $i++) {
     }
 
     // Build the SQL query
-    $sql = "INSERT INTO income (amount, comment, incomecategory_id, date, incomesource_id) VALUES";
+    $sql = "INSERT INTO income (amount, comment, incomecategory_id, date, incomesource_id) VALUES ";
     $sql .= "('$amount', '$comment', $incomecategory_id, '$date', $incomesource_id)";
 
     // Execute the query
     if ($conn->query($sql) === TRUE) {
-        // Record inserted successfully, but don't output anything here
+        // Record inserted successfully, no need to output here
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error on entry $i: " . $sql . "<br>" . $conn->error;
     }
 }
 
-require $_SERVER['DOCUMENT_ROOT'] .  '/components/return.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/components/return.php';
 
 $conn->close();
 
@@ -69,7 +69,7 @@ function insertNewRecord($conn, $table, $column, $value) {
     if ($conn->query($insertSql) === TRUE) {
         return $conn->insert_id;
     } else {
-        echo "Error: " . $insertSql . "<br>" . $conn->error;
+        echo "Error inserting new record: " . $insertSql . "<br>" . $conn->error;
         return null;
     }
 }

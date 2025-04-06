@@ -137,3 +137,65 @@
 .listSortUp::after{
     rotate: 180deg;
 }
+
+.editForm{
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    background-color: var(--dark003);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+.editForm section{
+    border-radius: 10px;
+    overflow: hidden;
+}
+.editForm header{
+    background-color: var(--blue10);
+    padding: 10px;
+    font-weight: 900;
+    font-size: 20px;
+}
+.editForm form{
+    background-color: var(--dark10);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    box-shadow: 10px 0 0 var(--darko0);
+    padding: 10px;
+}
+
+.editForm div:has(p){
+    width: 100%;
+    height: 100%;
+    display: grid;
+}
+.editForm :is(input, select, button){
+    background-color: var(--dark30);
+    border: none;
+    padding: 0px 10px;
+    width: calc(100% - 20px);
+    height: 40px;
+    border-radius: 10px;
+    transition: .1s;
+}
+.editForm :is(select, button){
+    width: 100% !important;
+}
+.editForm :is(input, select, button):focus{
+    outline: none;
+}
+.editForm div:has(button){
+    grid-column: span 3;
+}
+.editForm button:hover{
+    background-color: var(--blue10);
+    cursor: pointer;
+}

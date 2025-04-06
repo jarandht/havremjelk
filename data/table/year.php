@@ -2,9 +2,6 @@
 require $_SERVER['DOCUMENT_ROOT'] .  '/components/head.php';
 require $_SERVER['DOCUMENT_ROOT'] .  '/components/creds.php';
 
-// Connect to the database
-$conn = new mysqli($servername, $username, $password, $database);
-
 // Check the connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -147,9 +144,9 @@ $conn->close();
 ?>
 <body>
     <main>
-        <?php require '../nav/nav.php'; ?>
+        <?php require $_SERVER['DOCUMENT_ROOT'] .  '/components/nav.php'; ?>
         <section class="list">
-            <?php require './sideMenu.php'; ?>
+            <?php require $_SERVER['DOCUMENT_ROOT'] .  '/components/table/sideMenu.php'; ?>
             <section class="listContent">
                 <form id="yearForm" method="post">
                 <section class="listNavigation">

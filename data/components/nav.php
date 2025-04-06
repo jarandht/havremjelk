@@ -13,7 +13,7 @@ $current_page = $_SERVER['REQUEST_URI'];
         </div>
     </a>
     <div class="navDevider"></div>
-    <a href="/home" <?php echo strpos($current_page, '/home') !== false ? 'class="navSiteSelected"' : ''; ?>>
+    <a href="/dashboard" <?php echo strpos($current_page, '/dashboard') !== false ? 'class="navSiteSelected"' : ''; ?>>
         <div>
             <img src="/img/home.png" alt="">
         </div>

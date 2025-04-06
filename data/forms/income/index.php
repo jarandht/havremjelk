@@ -66,7 +66,7 @@ $conn->close();
                         </div>
                     </td>
                     <td>
-                        <input type="number" name="repeatCount" id="repeatCount"/>
+                        <input type="number" name="repeatCount[]" id="repeatCount"/>
                     </td>
                     <td>
                         <input type="text" name="txtComment[]" class="comment"/>
@@ -81,8 +81,8 @@ $conn->close();
 </body>
 </html>
 
-<script src="date.js"></script>
-<script src="incomeSelect.js"></script>
+<script src="/js/date.js"></script>
+<script src="/js/forms/incomeSelect.js"></script>
 <script>
    $(document).ready(function() {
       // Add new item when "Add Item" button is clicked
